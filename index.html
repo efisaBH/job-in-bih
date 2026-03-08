@@ -60,54 +60,7 @@
             --focus-outline:        2px solid var(--color-gold);
         }
 
-        /* =====================================================
-           DARK MODE
-           ===================================================== */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary:        #1a1a1a;
-                --bg-secondary:      #2d2d2d;
-                --bg-overlay:        rgba(255, 255, 255, 0.05);
-                --text-primary:      #ffffff;
-                --text-secondary:    #cccccc;
-                --text-inverse:      #ffffff;
-                --shadow-color:      rgba(255, 255, 255, 0.1);
-            }
-            
-            .logo-text,
-            .lang-icon-header,
-            .nav-icon,
-            .section-title,
-            .form-label,
-            .block-title,
-            .info-note,
-            .warning-card,
-            .contact-card,
-            .photo-upload label {
-                color: var(--text-primary);
-            }
-            
-            .lang-icon-header:hover,
-            .lang-icon-header.active {
-                background: var(--accent-gold);
-                color: var(--color-black);
-            }
-            
-            input, textarea, select {
-                background: #2d2d2d;
-                color: var(--text-primary);
-                border-color: #444;
-            }
-            
-            .repeat-block,
-            .warning-card,
-            .contact-card,
-            .photo-upload {
-                background: #2d2d2d;
-                border-color: #444;
-            }
-        }
-
+    
         /* =====================================================
            RESET & OSNOVA
            ===================================================== */
@@ -341,86 +294,91 @@
            SMANJENJE IKONICA ZA MOBITEL
            ===================================================== */
         @media (max-width: 768px) {
-            .site-header {
-                padding: 8px 12px;
-                gap: 8px;
-            }
-            
-            .logo-text {
-                font-size: 1.2rem;
-                padding: 4px 8px;
-            }
-            
-            .page-indicator {
-                font-size: 0.8rem;
-                padding: 2px 8px;
-                margin-left: 5px;
-            }
-            
-            .lang-icon-header {
-                width: 36px;
-                height: 28px;
-                font-size: 0.8rem;
-                border-width: 1px;
-            }
-            
-            .nav-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
-            }
-            
-            .main-nav {
-                gap: 5px;
-            }
-        }
+    .site-header {
+        padding: 8px 12px;
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
 
-        @media (max-width: 480px) {
-            .site-header {
-                padding: 5px 8px;
-                gap: 5px;
-            }
-            
-            .logo-text {
-                font-size: 1rem;
-                padding: 3px 6px;
-            }
-            
-            .page-indicator {
-                font-size: 0.7rem;
-                padding: 2px 5px;
-            }
-            
-            .lang-icon-header {
-                width: 32px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-            
-            .nav-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 0.8rem;
-            }
-        }
+    .logo-container {
+        flex-shrink: 1;
+        min-width: 0;
+        overflow: hidden;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
+        padding: 4px 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .page-indicator {
+        display: none;
+    }
+    
+    .lang-icon-header {
+        width: 36px;
+        height: 28px;
+        font-size: 0.8rem;
+        border-width: 1px;
+    }
+    
+    .nav-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .main-nav {
+        gap: 5px;
+        flex-wrap: nowrap;
+    }
+}
 
-        @media (max-width: 360px) {
-            .logo-text {
-                font-size: 0.9rem;
-            }
-            
-            .lang-icon-header {
-                width: 28px;
-                height: 22px;
-                font-size: 0.6rem;
-            }
-            
-            .nav-icon {
-                width: 24px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-        }
+@media (max-width: 480px) {
+    .site-header {
+        padding: 5px 8px;
+        gap: 4px;
+    }
+    
+    .logo-text {
+        font-size: 0.95rem;
+        padding: 3px 6px;
+    }
+    
+    .lang-icon-header {
+        width: 30px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+    
+    .nav-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 0.85rem;
+    }
+    
+    .lang-icon-header {
+        width: 26px;
+        height: 22px;
+        font-size: 0.6rem;
+    }
+    
+    .nav-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+}
 
         /* =====================================================
            STRANICE
@@ -441,34 +399,48 @@
            STRANICA 0: HERO (POČETNA)
            ===================================================== */
         .hero-container {
-            min-height: calc(100vh - var(--header-h) - var(--footer-h));
-            display: flex;
-        }
+    min-height: calc(100vh - var(--header-h) - var(--footer-h));
+    display: flex;
+    position: relative;
+}
 
-        .hero-text-side {
-            width: 35%;
-            background: #003366;
-            position: relative;
-            clip-path: polygon(0 0, 100% 0, 30% 100%, 0 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-left: 50px;
-        }
+.hero-text-side {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    clip-path: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 60px;
+}
 
-        .hero-image-side {
-            width: 65%;
-            background: #e0e0e0;
-            background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-        }
+.hero-image-side {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
 
-        .hero-text-content {
-            color: white;
-            max-width: 500px;
-            padding-right: 50px;
-        }
+.hero-text-content {
+    color: white;
+    max-width: 600px;
+    padding: 40px;
+    background: rgba(0, 51, 102, 0.75);
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
 
         .hero-main-headline {
             font-size: 2.8rem;
@@ -536,14 +508,12 @@
             margin-bottom: 25px;
             color: #000;
             font-weight: 600;
-            text-shadow: 
-                1px 1px 0 #FFCC00,
-                -1px -1px 0 #FFCC00,
-                1px -1px 0 #FFCC00,
-                -1px 1px 0 #FFCC00,
-                0 0 10px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.72);
+            padding: 6px 10px;
+            border-radius: 4px;
             letter-spacing: 0.3px;
         }
+
 
         .onama-text-container p:last-child {
             font-weight: 800;
@@ -1715,7 +1685,7 @@
 
                 <form id="cvForm" enctype="multipart/form-data">
                     <!-- Web3Forms hidden polja -->
-                    <input type="hidden" name="access_key" value="TVOJ-ACCESS-KEY-OVDJE">
+                    <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
                     <input type="hidden" name="subject" value="Novi životopis - Efisa doo">
                     <input type="hidden" name="from_name" value="Job in BIH">
                     <input type="hidden" name="redirect" value="false">
@@ -2494,3 +2464,4 @@
 </html>
 konačna verzija koja se treba dići na net V2.txt
 Displaying konačna verzija koja se treba dići na net V2.txt.
+
