@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="bs">
 <head>
@@ -14,7 +13,7 @@
     
     <style>
         /* =====================================================
-           CSS VARIJABLE
+           CSS VARIJABLE (POTPUNO ISTI KAO U TVOM KODU)
            ===================================================== */
         :root {
             --color-primary:        #003366;
@@ -341,11 +340,11 @@
         /* =====================================================
            SMANJENJE IKONICA ZA MOBITEL
            ===================================================== */
-		 @media (max-width: 768px) {
-   					.site-header img {
-        			height: 35px !important;
-   					 }
-				}
+        @media (max-width: 768px) {
+            .site-header {
+                padding: 8px 12px;
+                gap: 8px;
+            }
             
             .logo-text {
                 font-size: 1.2rem;
@@ -450,7 +449,7 @@
             width: 35%;
             background: #003366;
             position: relative;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 30% 100%, 0 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -460,10 +459,9 @@
         .hero-image-side {
             width: 65%;
             background: #e0e0e0;
-            background-image: url('pocetna.jpeg');
+            background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
-            background-position: center 20%;
-			background-repeat: no-repeat;
+            background-position: center;
         }
 
         .hero-text-content {
@@ -977,6 +975,11 @@
             background: var(--color-blue-light);
         }
 
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         .print-btn:hover {
             background: var(--accent-primary);
             color: var(--text-inverse);
@@ -1430,7 +1433,7 @@
     <!-- HEADER - PRVI RED SA LOGOM, JEZICIMA I IKONAMA -->
     <header class="site-header">
         <div class="logo-container" onclick="goToPage('hero')">
-            <img src="logo-jobs.jpeg" alt="Job in BIH" style="height: 50px; width: auto; max-width: 200px;">
+            <span class="logo-text">JOB IN BIH</span>
             <span class="page-indicator" id="current-page-indicator">- Početna</span>
         </div>
         
@@ -1710,12 +1713,12 @@
                     <p class="cv-subtitle" data-bs="Obrazac za popunjavanje - Agencija Efisa doo Sarajevo" data-en="Application form - Efisa doo Sarajevo" data-ar="استمارة التقديم - وكالة Efisa ذ.م.م سراييفو">Obrazac za popunjavanje - Agencija Efisa doo Sarajevo</p>
                 </div>
 
-               <form id="cvForm" enctype="multipart/form-data">
-				   <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
-					<input type="hidden" name="subject" value="Novi životopis - Efisa doo">
-					<input type="hidden" name="from_name" value="Job in BIH">
-					<input type="hidden" name="redirect" value="false">
-                   
+                <form id="cvForm" enctype="multipart/form-data">
+                    <!-- Web3Forms hidden polja -->
+                    <input type="hidden" name="access_key" value="TVOJ-ACCESS-KEY-OVDJE">
+                    <input type="hidden" name="subject" value="Novi životopis - Efisa doo">
+                    <input type="hidden" name="from_name" value="Job in BIH">
+                    <input type="hidden" name="redirect" value="false">
                     
                     <!-- 1. LIČNI PODACI - SA FOTOGRAFIJOM I NOVIM POLJEM -->
                     <div class="section">
@@ -2044,14 +2047,12 @@
                     </div>
 
                     <div class="footer-buttons no-print">
-                        
-						<button type="button" class="submit-btn" onclick="posaljiFormu()" 
-       							data-bs="📧 Pošalji prijavu" 
-        						data-en="📧 Send Application" 
-        						data-ar="📧 إرسال الطلب">
-    							📧 Pošalji prijavu
-						</button>
-					<div id="form-status"></div>
+                        <button type="button" class="submit-btn" onclick="posaljiFormu()" 
+                                data-bs="📧 Pošalji prijavu" 
+                                data-en="📧 Send Application" 
+                                data-ar="📧 إرسال الطلب">
+                            📧 Pošalji prijavu
+                        </button>
                         <button type="button" class="print-btn" onclick="window.print()" 
                                 data-bs="🖨️ ispiši / spremi kao PDF" 
                                 data-en="🖨️ print / save as PDF" 
@@ -2066,7 +2067,7 @@
                         </button>
                     </div>
 
-                    <div id="poruke"></div>
+                    <div id="form-status"></div>
                 </form>
             </div>
         </div>
@@ -2219,7 +2220,6 @@
             }
         }
 
-        // BUG 1 - POPRAVLJENO: Hero stranica nema aktivnu ikonu
         function updateActiveNavIcon(pageId) {
             document.querySelectorAll('.nav-icon').forEach((icon, index) => {
                 icon.classList.remove('active');
@@ -2356,7 +2356,6 @@
             const parent = original.parentNode;
             parent.insertBefore(novi, document.querySelector('.add-btn'));
             
-            // BUG 2 - POPRAVLJENO: Primjeni trenutni jezik na novi blok
             changeLanguage(currentLang, null);
         }
 
@@ -2386,25 +2385,11 @@
             const parent = original.parentNode;
             parent.insertBefore(novi, document.querySelectorAll('.add-btn')[1]);
             
-            // BUG 3 - POPRAVLJENO: Primjeni trenutni jezik na novi blok
             changeLanguage(currentLang, null);
         }
 
-        function prikaziPoruku(tekst, tip) {
-            const porukeDiv = document.getElementById('poruke');
-            if (porukeDiv) {
-                porukeDiv.innerHTML = `<div class="${tip === 'success' ? 'success-message' : 'error-message'}">${tekst}</div>`;
-                setTimeout(() => {
-                    porukeDiv.innerHTML = '';
-                }, 7000);
-            }
-        }
-
         // =====================================================
-        // INICIJALIZACIJA
-        // =====================================================
-               // =====================================================
-        // FUNKCIJA ZA SLANJE FORME - WEB3FORMS
+        // NOVA FUNKCIJA ZA SLANJE FORME NA WEB3FORMS
         // =====================================================
         async function posaljiFormu() {
             const form = document.getElementById('cvForm');
@@ -2418,7 +2403,7 @@
             }
 
             // Provjeri checkbox saglasnosti
-            const saglasnost = form.querySelector('input[name="saglasnost"]');
+            const saglasnost = form.querySelector('input[name="suglasnost"]');
             if (saglasnost && !saglasnost.checked) {
                 alert(currentLang === 'ar' 
                     ? 'يجب الموافقة على الشروط' 
@@ -2454,8 +2439,16 @@
                         </div>`;
                     form.reset();
                     // Resetuj foto preview ako postoji
-                    const fotoPreview = document.getElementById('foto-preview');
-                    if (fotoPreview) fotoPreview.src = '';
+                    const fotoInput = document.getElementById('foto');
+                    if (fotoInput) {
+                        fotoInput.value = '';
+                        const fotoSpan = document.querySelector('.photo-upload span');
+                        if (fotoSpan) {
+                            fotoSpan.textContent = currentLang === 'bs' ? 'Klikni za upload' 
+                                                   : currentLang === 'en' ? 'Click to upload' 
+                                                   : 'انقر للتحميل';
+                        }
+                    }
                 } else {
                     throw new Error(result.message || 'Greška');
                 }
@@ -2477,61 +2470,13 @@
                 status.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
-		
-		window.addEventListener('load', function()
+
+        // =====================================================
+        // INICIJALIZACIJA
+        // =====================================================
+        window.addEventListener('load', function() {
             goToPage('hero');
             
-            const cvForm = document.getElementById('cvForm');
-            if (cvForm) {
-                cvForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const nisamRobot = document.getElementById('nisam_robot')?.checked;
-                    const suglasnost = document.getElementById('suglasnost')?.checked;
-                    
-                    if (!nisamRobot || !suglasnost) {
-                        prikaziPoruku('Morate označiti oba checkboxa: "Nisam robot" i saglasnost za Efisa doo.', 'error');
-                        return;
-                    }
-                    
-                    const formData = new FormData(this);
-                    
-                    fetch(this.action, {
-                        method: 'POST',
-                        body: formData
-                    })
-						
-                    .then(response => {
-                        if (response.ok) {
-                            prikaziPoruku('Uspješno poslano! Provjerite vaš email (uključujući i spam/junk folder).', 'success');
-                            setTimeout(() => {
-                                cvForm.reset();
-                            }, 3000);
-                        } else {
-                            prikaziPoruku('Došlo je do greške prilikom slanja. Molimo pokušajte ponovo.', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        prikaziPoruku('Došlo je do greške prilikom slanja. Molimo pokušajte ponovo.', 'error');
-                    });
-                });
-            }
-            
-            document.addEventListener('click', function(e) {
-                if (e.target && e.target.tagName === 'BUTTON' && e.target.innerText.includes('ukloni')) {
-                    const block = e.target.closest('.repeat-block');
-                    if (block) {
-                        const parent = block.parentNode;
-                        const blocks = parent.querySelectorAll('.repeat-block');
-                        if (blocks.length > 1) {
-                            block.remove();
-                        } else {
-                            alert('Mora ostati bar jedno radno iskustvo / obrazovanje!');
-                        }
-                    }
-                }
-            });
-
             // Prikaz imena fajla za fotografiju
             const fotoInput = document.getElementById('foto');
             if (fotoInput) {
@@ -2540,30 +2485,12 @@
                     const photoLabel = document.querySelector('.photo-upload span');
                     if (photoLabel && fileName) {
                         photoLabel.textContent = fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
-                        // Sačuvaj originalni tekst za kasnije
-                        photoLabel.setAttribute('data-filename', fileName);
                     }
                 });
             }
         });
-
-		
-		
     </script>
 </body>
 </html>
-konačna verzija koja se treba dići na net.txt
-
-Displaying konačna verzija koja se treba dići na net.txt.
-
-
-
-
-
-
-
-
-
-
-
-
+konačna verzija koja se treba dići na net V2.txt
+Displaying konačna verzija koja se treba dići na net V2.txt.
