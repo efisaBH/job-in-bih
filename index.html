@@ -2424,10 +2424,7 @@
                     
                     const formData = new FormData(this);
                     
-                    fetch(this.action, {
-                        method: 'POST',
-                        body: formData
-                    })
+                    
                     .then(response => {
                         if (response.ok) {
                             prikaziPoruku('Uspješno poslano! Provjerite vaš email (uključujući i spam/junk folder).', 'success');
@@ -2479,6 +2476,7 @@
 konačna verzija koja se treba dići na net.txt
 
 Displaying konačna verzija koja se treba dići na net.txt.
+
 
 
 
