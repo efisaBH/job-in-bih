@@ -1710,17 +1710,12 @@
                     <p class="cv-subtitle" data-bs="Obrazac za popunjavanje - Agencija Efisa doo Sarajevo" data-en="Application form - Efisa doo Sarajevo" data-ar="استمارة التقديم - وكالة Efisa ذ.م.م سراييفو">Obrazac za popunjavanje - Agencija Efisa doo Sarajevo</p>
                 </div>
 
-                <form id="cvForm" action="https://formsubmit.co/efisa.job@gmail.com" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="_subject" value="Novi životopis - Efisa doo">
-                    <input type="hidden" name="_template" value="box">
-                    <input type="hidden" name="_captcha" value="false">
-                    <!-- ZAMIJENITI OVAJ URL NAKON OBJAVE -->
-                    <input type="hidden" name="_next" value="https://job-in.bih.workers.dev/html.html">
-					<input type="hidden" name="_subject" value="New submission!">
-					<input type="hidden" name="_blacklist" value="spammy pattern, banned term, phrase">
-					<input type="text" name="_honey" style="display:none">
-					<input type="email" name="email" placeholder="Email Address">
-                    <input type="hidden" name="_autoresponse" value="Hvala na prijavi! Vaš životopis je uspješno poslan.">
+               <form id="cvForm" enctype="multipart/form-data">
+				   <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
+					<input type="hidden" name="subject" value="Novi životopis - Efisa doo">
+					<input type="hidden" name="from_name" value="Job in BIH">
+					<input type="hidden" name="redirect" value="false">
+                   
                     
                     <!-- 1. LIČNI PODACI - SA FOTOGRAFIJOM I NOVIM POLJEM -->
                     <div class="section">
@@ -2049,12 +2044,14 @@
                     </div>
 
                     <div class="footer-buttons no-print">
-                        <button type="submit" class="submit-btn" id="submitBtn" 
-                                data-bs="📧 Pošalji prijavu" 
-                                data-en="📧 Submit Application" 
-                                data-ar="📧 إرسال الطلب">
-                            📧 Pošalji prijavu
-                        </button>
+                        
+						<button type="button" class="submit-btn" onclick="posaljiFormu()" 
+       							data-bs="📧 Pošalji prijavu" 
+        						data-en="📧 Send Application" 
+        						data-ar="📧 إرسال الطلب">
+    							📧 Pošalji prijavu
+						</button>
+					<div id="form-status"></div>
                         <button type="button" class="print-btn" onclick="window.print()" 
                                 data-bs="🖨️ ispiši / spremi kao PDF" 
                                 data-en="🖨️ print / save as PDF" 
@@ -2474,12 +2471,86 @@
                 });
             }
         });
+
+		sync function posaljiFormu() {
+    const form = document.getElementById('cvForm');
+    const status = document.getElementById('form-status');
+    const btn = form.querySelector('.submit-btn');
+
+    // Provjeri obavezna polja
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    // Provjeri checkbox saglasnosti
+    const saglasnost = form.querySelector('input[name="saglasnost"]');
+    if (saglasnost && !saglasnost.checked) {
+        alert(currentLang === 'ar' 
+            ? 'يجب الموافقة على الشروط' 
+            : currentLang === 'en' 
+            ? 'You must agree to the terms' 
+            : 'Morate se složiti sa uslovima');
+        return;
+    }
+
+    // Prikaži učitavanje
+    btn.disabled = true;
+    btn.textContent = '⏳ Slanje...';
+    status.innerHTML = '';
+
+    try {
+        const formData = new FormData(form);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            status.innerHTML = `
+                <div class="success-message">
+                    ✅ ${currentLang === 'ar' 
+                        ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
+                        : currentLang === 'en' 
+                        ? 'Your application has been sent successfully! We will contact you soon.' 
+                        : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
+                </div>`;
+            form.reset();
+            // Resetuj foto preview ako postoji
+            const fotoPreview = document.getElementById('foto-preview');
+            if (fotoPreview) fotoPreview.src = '';
+        } else {
+            throw new Error(result.message || 'Greška');
+        }
+    } catch (error) {
+        status.innerHTML = `
+            <div class="error-message">
+                ❌ ${currentLang === 'ar' 
+                    ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' 
+                    : currentLang === 'en' 
+                    ? 'An error occurred. Please try again or contact us directly.' 
+                    : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
+            </div>`;
+    } finally {
+        btn.disabled = false;
+        btn.textContent = currentLang === 'ar' ? '📧 إرسال الطلب' 
+                        : currentLang === 'en' ? '📧 Send Application' 
+                        : '📧 Pošalji prijavu';
+        // Skrolaj do poruke
+        status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+		
     </script>
 </body>
 </html>
 konačna verzija koja se treba dići na net.txt
 
 Displaying konačna verzija koja se treba dići na net.txt.
+
 
 
 
