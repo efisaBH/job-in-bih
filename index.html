@@ -341,10 +341,10 @@
         /* =====================================================
            SMANJENJE IKONICA ZA MOBITEL
            ===================================================== */
-        @media @media (max-width: 768px) {
-					.site-header img {
-					height: 35px !important;
-					}
+		 @media (max-width: 768px) {
+   					.site-header img {
+        			height: 35px !important;
+   					 }
 				}
             
             .logo-text {
@@ -2403,7 +2403,82 @@
         // =====================================================
         // INICIJALIZACIJA
         // =====================================================
-        window.addEventListener('load', function() {
+               // =====================================================
+        // FUNKCIJA ZA SLANJE FORME - WEB3FORMS
+        // =====================================================
+        async function posaljiFormu() {
+            const form = document.getElementById('cvForm');
+            const status = document.getElementById('form-status');
+            const btn = form.querySelector('.submit-btn');
+
+            // Provjeri obavezna polja
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Provjeri checkbox saglasnosti
+            const saglasnost = form.querySelector('input[name="saglasnost"]');
+            if (saglasnost && !saglasnost.checked) {
+                alert(currentLang === 'ar' 
+                    ? 'يجب الموافقة على الشروط' 
+                    : currentLang === 'en' 
+                    ? 'You must agree to the terms' 
+                    : 'Morate se složiti sa uslovima');
+                return;
+            }
+
+            // Prikaži učitavanje
+            btn.disabled = true;
+            btn.textContent = '⏳ Slanje...';
+            status.innerHTML = '';
+
+            try {
+                const formData = new FormData(form);
+
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    status.innerHTML = `
+                        <div class="success-message">
+                            ✅ ${currentLang === 'ar' 
+                                ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
+                                : currentLang === 'en' 
+                                ? 'Your application has been sent successfully! We will contact you soon.' 
+                                : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
+                        </div>`;
+                    form.reset();
+                    // Resetuj foto preview ako postoji
+                    const fotoPreview = document.getElementById('foto-preview');
+                    if (fotoPreview) fotoPreview.src = '';
+                } else {
+                    throw new Error(result.message || 'Greška');
+                }
+            } catch (error) {
+                status.innerHTML = `
+                    <div class="error-message">
+                        ❌ ${currentLang === 'ar' 
+                            ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' 
+                            : currentLang === 'en' 
+                            ? 'An error occurred. Please try again or contact us directly.' 
+                            : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
+                    </div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = currentLang === 'ar' ? '📧 إرسال الطلب' 
+                                : currentLang === 'en' ? '📧 Send Application' 
+                                : '📧 Pošalji prijavu';
+                // Skrolaj do poruke
+                status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+		
+		window.addEventListener('load', function()
             goToPage('hero');
             
             const cvForm = document.getElementById('cvForm');
@@ -2472,77 +2547,7 @@
             }
         });
 
-		sync function posaljiFormu() {
-    const form = document.getElementById('cvForm');
-    const status = document.getElementById('form-status');
-    const btn = form.querySelector('.submit-btn');
-
-    // Provjeri obavezna polja
-    if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-    }
-
-    // Provjeri checkbox saglasnosti
-    const saglasnost = form.querySelector('input[name="saglasnost"]');
-    if (saglasnost && !saglasnost.checked) {
-        alert(currentLang === 'ar' 
-            ? 'يجب الموافقة على الشروط' 
-            : currentLang === 'en' 
-            ? 'You must agree to the terms' 
-            : 'Morate se složiti sa uslovima');
-        return;
-    }
-
-    // Prikaži učitavanje
-    btn.disabled = true;
-    btn.textContent = '⏳ Slanje...';
-    status.innerHTML = '';
-
-    try {
-        const formData = new FormData(form);
-
-        const response = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            status.innerHTML = `
-                <div class="success-message">
-                    ✅ ${currentLang === 'ar' 
-                        ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
-                        : currentLang === 'en' 
-                        ? 'Your application has been sent successfully! We will contact you soon.' 
-                        : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
-                </div>`;
-            form.reset();
-            // Resetuj foto preview ako postoji
-            const fotoPreview = document.getElementById('foto-preview');
-            if (fotoPreview) fotoPreview.src = '';
-        } else {
-            throw new Error(result.message || 'Greška');
-        }
-    } catch (error) {
-        status.innerHTML = `
-            <div class="error-message">
-                ❌ ${currentLang === 'ar' 
-                    ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' 
-                    : currentLang === 'en' 
-                    ? 'An error occurred. Please try again or contact us directly.' 
-                    : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
-            </div>`;
-    } finally {
-        btn.disabled = false;
-        btn.textContent = currentLang === 'ar' ? '📧 إرسال الطلب' 
-                        : currentLang === 'en' ? '📧 Send Application' 
-                        : '📧 Pošalji prijavu';
-        // Skrolaj do poruke
-        status.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-}
+		
 		
     </script>
 </body>
@@ -2550,6 +2555,7 @@
 konačna verzija koja se treba dići na net.txt
 
 Displaying konačna verzija koja se treba dići na net.txt.
+
 
 
 
