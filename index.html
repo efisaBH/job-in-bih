@@ -181,6 +181,14 @@
             cursor: pointer;
             flex-shrink: 0;
         }
+        .logo-slika {
+    height: 60px;           /* Visina loga */
+    width: auto;            /* Širina se automatski prilagođava */
+    max-width: 200px;       /* Maksimalna širina */
+    object-fit: contain;    /* Zadržava proporcije */
+    border-radius: 4px;     /* Blago zaobljeni uglovi (opciono) */
+    transition: opacity var(--transition-base);
+}
 
         .logo-text {
             font-family: var(--font-display);
@@ -314,6 +322,17 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+            /* Manji logo na mobitelima */
+@media (max-width: 768px) {
+    .logo-slika {
+        height: 40px;
+    }
+}
+            @media (max-width: 480px) {
+    .logo-slika {
+        height: 30px;
+    }
+}
     
     .page-indicator {
         display: none;
@@ -425,7 +444,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+    background-image: url('pocetna.jpeg');
     background-size: cover;
     background-position: center;
     z-index: 1;
@@ -1403,7 +1422,7 @@
     <!-- HEADER - PRVI RED SA LOGOM, JEZICIMA I IKONAMA -->
     <header class="site-header">
         <div class="logo-container" onclick="goToPage('hero')">
-            <span class="logo-text">JOB IN BIH</span>
+            <img src="logo-jobs.jpeg" alt="Job in BIH logo" class="logo-slika">
             <span class="page-indicator" id="current-page-indicator">- Početna</span>
         </div>
         
@@ -2464,4 +2483,5 @@
 </html>
 konačna verzija koja se treba dići na net V2.txt
 Displaying konačna verzija koja se treba dići na net V2.txt.
+
 
