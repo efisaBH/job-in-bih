@@ -2140,16 +2140,16 @@
     </section>
 
     <!-- FOOTER NAVIGACIJA -->
-    <footer class="footer-nav">
+  <footer class="footer-nav">
         <button class="nav-btn" id="backBtn" onclick="navigatePage('prev')">
             <i class="fas fa-arrow-left"></i> <span data-bs="Nazad" data-en="Back" data-ar="رجوع">Nazad</span>
         </button>
-        <div class="page-indicator-footer" id="page-counter">1/5</div>
+        <div class="page-indicator-footer" id="page-counter">Početna</div>
         <button class="nav-btn" id="forwardBtn" onclick="navigatePage('next')">
             <span data-bs="Naprijed" data-en="Forward" data-ar="التالي">Naprijed</span> <i class="fas fa-arrow-right"></i>
         </button>
     </footer>
-    
+
     <script>
         // =====================================================
         // GLOBALNE VARIJABLE
@@ -2196,16 +2196,15 @@
             goToPage(pages[currentPageIndex]);
         }
 
-                function updatePageIndicator() {
+        function updatePageIndicator() {
             const indicator = document.getElementById('page-counter');
             if (currentPageIndex === 0) {
-                // Za početnu stranicu prikaži "Početna" na odgovarajućem jeziku
                 indicator.textContent = currentLang === 'bs' ? 'Početna' : currentLang === 'en' ? 'Home' : 'الصفحة الرئيسية';
             } else {
-                // Za ostale stranice prikaži broj (npr. "1/5", "2/5", itd.)
-                indicator.textContent = `${currentPageIndex}/5`;
+                indicator.textContent = `Stranica ${currentPageIndex}/5`;
             }
         }
+
 
         function updateActiveNavIcon(pageId) {
             document.querySelectorAll('.nav-icon').forEach((icon, index) => {
