@@ -2388,34 +2388,27 @@
      // =====================================================
 // ISPRAVNA FUNKCIJA PREMA WEB3FORMS DOKUMENTACIJI
 // =====================================================
+// =====================================================
+// POPRAVLJENA FUNKCIJA ZA SLANJE FORME
+// =====================================================
 function posaljiFormu() {
     const form = document.getElementById('cvForm');
     const status = document.getElementById('form-status');
     const submitBtn = form.querySelector('.submit-btn');
     
-    // Prvo provjeri fotografiju
-   // const fotoInput = document.getElementById('foto');
-   // if (!fotoInput || !fotoInput.files || fotoInput.files.length === 0) {
-     //   const message = currentLang === 'bs' ? 'Fotografija je obavezna! Molimo dodajte fotografiju.' :
-       //                currentLang === 'en' ? 'Photo is required! Please add a photo.' :
-         //              'الصورة مطلوبة! يرجى إضافة صورة.';
-        //alert(message);
-        //return;
-   // }
-
-    // Provjeri checkbox saglasnosti
-    const saglasnost = form.querySelector('input[name="suglasnost"]:checked');
-    if (!saglasnost) {
+    // Prvo provjeri da li je forma validna (HTML5 validacija)
+    if (!form.checkValidity()) {
+        form.reportValidity();  // Ovo će pokazati koja polja nisu popunjena
+        return;
+    }
+    
+    // Zatim provjeri checkbox saglasnosti (dodatna provjera)
+    const saglasnost = form.querySelector('input[name="suglasnost"]');
+    if (!saglasnost.checked) {
         const message = currentLang === 'bs' ? 'Morate se složiti sa uslovima' :
                        currentLang === 'en' ? 'You must agree to the terms' :
                        'يجب الموافقة على الشروط';
         alert(message);
-        return;
-    }
-
-    // Provjeri ostala obavezna polja
-    if (!form.checkValidity()) {
-        form.reportValidity();
         return;
     }
 
@@ -2479,7 +2472,8 @@ function posaljiFormu() {
             // Resetuj formu
             form.reset();
             
-            // Resetuj foto preview
+            // Resetuj foto preview ako postoji
+            const fotoInput = document.getElementById('foto');
             if (fotoInput) {
                 fotoInput.value = '';
                 const fotoSpan = document.querySelector('.photo-upload span');
@@ -2534,7 +2528,6 @@ function posaljiFormu() {
         }, 10000);
     });
 }
-
         
  // =====================================================
 // ALTERNATIVNA METODA - mailto fallback
