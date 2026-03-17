@@ -1728,9 +1728,9 @@
                                 <div class="photo-upload" onclick="document.getElementById('foto').click();">
                                     <i class="fas fa-camera"></i>
                                     <span data-bs="Klikni za upload" data-en="Click to upload" data-ar="انقر للتحميل">Klikni za upload</span>
-                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" required style="display: none;">
+                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" style="display: none;">
                                 </div>
-                                <div class="photo-label required" data-bs="Fotografija" data-en="Photo" data-ar="صورة شخصية">Fotografija</div>
+                               <div class="photo-label optional" data-bs="Fotografija (opcionalno)" data-en="Photo (optional)" data-ar="صورة شخصية (اختياري)">Fotografija (opcionalno)</div>
                             </div>
                             
                             <!-- Kolona za podatke -->
@@ -2385,24 +2385,23 @@
             changeLanguage(currentLang, null);
         }
 
-        // =====================================================
-// POPRAVLJENA FUNKCIJA ZA SLANJE FORME NA WEB3FORMS
+     // =====================================================
+// ISPRAVNA FUNKCIJA PREMA WEB3FORMS DOKUMENTACIJI
 // =====================================================
-
-async function posaljiFormu() {
+function posaljiFormu() {
     const form = document.getElementById('cvForm');
     const status = document.getElementById('form-status');
     const submitBtn = form.querySelector('.submit-btn');
-
+    
     // Prvo provjeri fotografiju
-    const fotoInput = document.getElementById('foto');
-    if (!fotoInput || !fotoInput.files || fotoInput.files.length === 0) {
-        const message = currentLang === 'bs' ? 'Fotografija je obavezna! Molimo dodajte fotografiju.' :
-                       currentLang === 'en' ? 'Photo is required! Please add a photo.' :
-                       'الصورة مطلوبة! يرجى إضافة صورة.';
-        alert(message);
-        return;
-    }
+   // const fotoInput = document.getElementById('foto');
+   // if (!fotoInput || !fotoInput.files || fotoInput.files.length === 0) {
+     //   const message = currentLang === 'bs' ? 'Fotografija je obavezna! Molimo dodajte fotografiju.' :
+       //                currentLang === 'en' ? 'Photo is required! Please add a photo.' :
+         //              'الصورة مطلوبة! يرجى إضافة صورة.';
+        //alert(message);
+        //return;
+   // }
 
     // Provjeri checkbox saglasnosti
     const saglasnost = form.querySelector('input[name="suglasnost"]:checked');
@@ -2426,44 +2425,47 @@ async function posaljiFormu() {
     submitBtn.textContent = currentLang === 'bs' ? '⏳ Slanje...' :
                            currentLang === 'en' ? '⏳ Sending...' :
                            '⏳ جاري الإرسال...';
-
+    
     status.innerHTML = "Molimo sačekajte...";
     status.style.display = 'block';
-
-    try {
-        // Kreiraj FormData objekat
-        const formData = new FormData(form);
-        
-        // Dodaj potrebne Web3Forms podatke
-        formData.append('access_key', '42ac0273-a354-4e08-9923-0eced83cc1e1');
-        
-        // Preuzmi ime kandidata za subject
-        const imePrezime = formData.get('ime_prezime') || 'Nepoznat kandidat';
-        formData.append('subject', `Nova prijava za posao - ${imePrezime} - ${new Date().toLocaleDateString()}`);
-        
-        // Pretvori FormData u običan objekat
-        const object = Object.fromEntries(formData);
-        
-        // Za file-ove moramo drugačije - JSON ne može direktno slati fajlove
-        // Zato ćemo koristiti FormData za fajlove, ali to je komplikovanije
-        
-        // Pošalji kao JSON (bez fajlova za sada)
-        const json = JSON.stringify(object);
-        
-        console.log('Šaljem podatke:', object);
-
-        const response = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: json
-        });
-
+    
+    // Kreiramo FormData i odmah ga pretvaramo u običan objekat
+    const formData = new FormData(form);
+    
+    // Dobij ime za subject
+    const imePrezime = formData.get('ime_prezime') || 'Nepoznat kandidat';
+    
+    // Kreiramo običan objekat iz FormData
+    const formObject = {};
+    formData.forEach((value, key) => {
+        // Preskačemo fajlove jer ih JSON ne može poslati
+        if (key !== 'fotografija' && key !== 'cv_upload' && key !== 'preporuka_upload') {
+            formObject[key] = value;
+        }
+    });
+    
+    // Dodaj Web3Forms potrebna polja
+    formObject.access_key = '42ac0273-a354-4e08-9923-0eced83cc1e1';
+    formObject.subject = `Nova prijava za posao - ${imePrezime} - ${new Date().toLocaleDateString()}`;
+    
+    // Pretvori u JSON
+    const jsonData = JSON.stringify(formObject);
+    
+    console.log('Šaljem JSON podatke:', formObject);
+    
+    // Pošalji na Web3Forms
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: jsonData
+    })
+    .then(async (response) => {
         const result = await response.json();
         console.log('Web3Forms odgovor:', result);
-
+        
         if (response.status == 200) {
             // USPJEH
             status.innerHTML = `
@@ -2476,7 +2478,7 @@ async function posaljiFormu() {
             
             // Resetuj formu
             form.reset();
-
+            
             // Resetuj foto preview
             if (fotoInput) {
                 fotoInput.value = '';
@@ -2488,15 +2490,25 @@ async function posaljiFormu() {
                 }
             }
             
+            // Dodatna napomena za fajlove
+            status.innerHTML += `
+                <div style="background: #fff3cd; color: #856404; padding: 10px; margin-top: 10px; border-radius: 4px;">
+                    ⚠️ ${currentLang === 'bs' ? 'Fotografiju, CV i preporuke pošaljite posebno na email efisa.job@gmail.com' :
+                         currentLang === 'en' ? 'Please send photo, CV and recommendations separately to efisa.job@gmail.com' :
+                         'يرجى إرسال الصورة والسيرة الذاتية والتوصيات بشكل منفصل إلى efisa.job@gmail.com'}
+                </div>
+            `;
+            
         } else {
-            // GREŠKA OD WEB3FORMS
+            // GREŠKA
             status.innerHTML = `
                 <div style="background: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #f5c6cb; font-weight: 500;">
                     ❌ ${result.message || 'Došlo je do greške pri slanju.'}
                 </div>
             `;
         }
-    } catch (error) {
+    })
+    .catch(error => {
         console.error('Greška:', error);
         status.innerHTML = `
             <div style="background: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #f5c6cb; font-weight: 500;">
@@ -2507,23 +2519,21 @@ async function posaljiFormu() {
                     : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
             </div>
         `;
-    } finally {
+    })
+    .finally(() => {
         // Vrati dugme u normalno stanje
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
         
-        // Sakrij poruku nakon 5 sekundi
+        // Skroluj do poruke
+        status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Sakrij poruku nakon 10 sekundi
         setTimeout(() => {
             status.style.display = 'none';
-        }, 5000);
-    }
+        }, 10000);
+    });
 }
-        
-    window.onload = function() {
-        // Reset the form fields when the page loads
-        document.getElementById("form").reset();
-    };
-
 
         
  // =====================================================
