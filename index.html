@@ -1721,7 +1721,7 @@
                                 <div class="photo-upload" onclick="document.getElementById('foto').click();">
                                     <i class="fas fa-camera"></i>
                                     <span data-bs="Klikni za upload" data-en="Click to upload" data-ar="انقر للتحميل">Klikni za upload</span>
-                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" required style="display: none;">
+                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" style="display: none;">
                                 </div>
                                 <div class="photo-label required" data-bs="Fotografija" data-en="Photo" data-ar="صورة شخصية">Fotografija</div>
                             </div>
@@ -2436,6 +2436,18 @@
                     `;
                     
                     form.reset();
+
+                    // Provjeri fotografiju
+const foto = document.getElementById('foto');
+if (!foto || !foto.files || foto.files.length === 0) {
+    const message = currentLang === 'bs' ? 'Fotografija je obavezna' :
+                   currentLang === 'en' ? 'Photo is required' :
+                   'الصورة مطلوبة';
+    alert(message);
+    return;
+}
+
+                    
                     // Resetuj foto preview ako postoji
                     const fotoInput = document.getElementById('foto');
                     if (fotoInput) {
