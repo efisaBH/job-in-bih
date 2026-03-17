@@ -2484,36 +2484,6 @@ async function posaljiFormu() {
         status.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 }
-        // TEST FUNKCIJA - SAMO ZA TESTIRANJE
-async function testWeb3() {
-    const status = document.getElementById('form-status');
-    status.innerHTML = '<div style="background: #fff3cd; color: #856404; padding: 15px;">⏳ Testiranje...</div>';
-    
-    const testData = new FormData();
-    testData.append('access_key', '42ac0273-a354-4e08-9923-0eced83cc1e1');
-    testData.append('subject', 'TEST - Ignorirajte');
-    testData.append('name', 'Test Korisnik');
-    testData.append('email', 'test@example.com');
-    testData.append('message', 'Ovo je testni mail. Ako vidite ovo, Web3Forms radi!');
-    
-    try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            body: testData
-        });
-        
-        const result = await response.json();
-        console.log('Test odgovor:', result);
-        
-        if (result.success) {
-            status.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 15px;">✅ Test uspješan! Provjerite email (i SPAM).</div>';
-        } else {
-            status.innerHTML = `<div style="background: #f8d7da; color: #721c24; padding: 15px;">❌ Test neuspješan: ${result.message}</div>`;
-        }
-    } catch (error) {
-        status.innerHTML = `<div style="background: #f8d7da; color: #721c24; padding: 15px;">❌ Greška: ${error.message}</div>`;
-    }
-}
         
  // =====================================================
 // ALTERNATIVNA METODA - mailto fallback
