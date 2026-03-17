@@ -1714,9 +1714,9 @@
                                 <div class="photo-upload" onclick="document.getElementById('foto').click();">
                                     <i class="fas fa-camera"></i>
                                     <span data-bs="Klikni za upload" data-en="Click to upload" data-ar="انقر للتحميل">Klikni za upload</span>
-                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" required style="display: none;">
+                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" style="display: none;">
                                 </div>
-                                <div class="photo-label required" data-bs="Fotografija" data-en="Photo" data-ar="صورة شخصية">Fotografija</div>
+                                <div class="photo-label optional" data-bs="Fotografija (opcionalno)" data-en="Photo (optional)" data-ar="صورة شخصية (اختياري)">Fotografija (opcionalno)</div>
                             </div>
                             
                             <!-- Kolona za podatke -->
@@ -2144,12 +2144,12 @@
         <button class="nav-btn" id="backBtn" onclick="navigatePage('prev')">
             <i class="fas fa-arrow-left"></i> <span data-bs="Nazad" data-en="Back" data-ar="رجوع">Nazad</span>
         </button>
-        <div class="page-indicator-footer" id="page-counter">Početna</div>
+        <div class="page-indicator-footer" id="page-counter">1/5</div>
         <button class="nav-btn" id="forwardBtn" onclick="navigatePage('next')">
             <span data-bs="Naprijed" data-en="Forward" data-ar="التالي">Naprijed</span> <i class="fas fa-arrow-right"></i>
         </button>
     </footer>
-
+    
     <script>
         // =====================================================
         // GLOBALNE VARIJABLE
@@ -2196,12 +2196,14 @@
             goToPage(pages[currentPageIndex]);
         }
 
-        function updatePageIndicator() {
+                function updatePageIndicator() {
             const indicator = document.getElementById('page-counter');
             if (currentPageIndex === 0) {
+                // Za početnu stranicu prikaži "Početna" na odgovarajućem jeziku
                 indicator.textContent = currentLang === 'bs' ? 'Početna' : currentLang === 'en' ? 'Home' : 'الصفحة الرئيسية';
             } else {
-                indicator.textContent = `Stranica ${currentPageIndex}/5`;
+                // Za ostale stranice prikaži broj (npr. "1/5", "2/5", itd.)
+                indicator.textContent = `${currentPageIndex}/5`;
             }
         }
 
