@@ -1205,7 +1205,1319 @@
         .nav-btn {
             background: var(--bg-primary);
             color: var(--accent-primary);
+        .nav-btn:focus-visible {
+            outline: var(--focus-outline);
+        }
 
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
 
+        .nav-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
 
+        .page-indicator-footer {
+            font-weight: 700;
+            color: var(--accent-gold);
+            background: rgba(0, 51, 102, 0.8);
+            padding: 8px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 2px solid var(--accent-gold);
+            font-size: 1rem;
+        }
 
+        /* =====================================================
+           RTL ZA ARAPSKI
+           ===================================================== */
+        .rtl {
+            direction: rtl;
+            text-align: right;
+            font-family: var(--font-arabic);
+        }
+
+        .rtl .form-label {
+            text-align: right;
+        }
+
+        .rtl .block-title {
+            border-left: none;
+            border-right: 4px solid var(--accent-gold);
+            padding-left: 0;
+            padding-right: 10px;
+        }
+
+        .rtl .subsection-title {
+            border-left: none;
+            border-right: 5px solid var(--accent-gold);
+            padding-left: 0;
+            padding-right: 15px;
+        }
+
+        .rtl .agent-card {
+            border-left: none;
+            border-right: 5px solid var(--accent-primary);
+        }
+
+        .rtl .agent-card:hover {
+            transform: translateX(-10px);
+        }
+
+        .rtl .personal-data-row {
+            flex-direction: row-reverse;
+        }
+
+        /* =====================================================
+           RESPONZIVNOST - OPŠTA
+           ===================================================== */
+        @media (max-width: 768px) {
+            :root {
+                --header-h: auto;
+                --footer-h: 100px;
+            }
+
+            .site-header {
+                padding: 10px 15px;
+            }
+
+            .hero-container {
+                flex-direction: column;
+            }
+            
+            .hero-text-side, .hero-image-side {
+                width: 100%;
+                height: 50vh;
+            }
+            
+            .hero-text-side {
+                clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+                padding: 30px;
+                text-align: center;
+            }
+            
+            .hero-text-content {
+                padding-right: 0;
+            }
+            
+            .hero-main-headline {
+                font-size: 2.2rem;
+            }
+
+            .cv-container {
+                padding: 20px 15px;
+            }
+
+            .form-label {
+                flex: 0 0 100%;
+                margin-bottom: 5px;
+            }
+
+            .personal-data-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .photo-column {
+                flex: 0 0 auto;
+                margin-bottom: 20px;
+            }
+
+            .warning-card {
+                padding: 40px 20px;
+            }
+
+            .warning-sign {
+                font-size: 6rem;
+            }
+
+            .contact-card {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --footer-h: 120px;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                height: auto;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .hero-main-headline {
+                font-size: 1.8rem;
+            }
+
+            .warning-sign {
+                font-size: 5rem;
+            }
+
+            .warning-text {
+                font-size: 2rem;
+                padding: 15px 0;
+            }
+
+            .agent-contact {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .print-btn, .submit-btn, .procedure-pdf-btn {
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            
+            .warning-sign {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER - PRVI RED SA LOGOM, JEZICIMA I IKONAMA -->
+    <header class="site-header">
+        <div class="logo-container" onclick="goToPage('hero')">
+            <img src="logo-jobs.jpeg" alt="Job in BIH logo" class="logo-slika">
+            <span class="page-indicator" id="current-page-indicator">- Početna</span>
+        </div>
+        
+        <!-- JEZICI U PRVOM REDU - BS | EN | AR -->
+        <div class="header-lang-icons">
+            <button class="lang-icon-header active" onclick="changeLanguage('bs', this)">BS</button>
+            <button class="lang-icon-header" onclick="changeLanguage('en', this)">EN</button>
+            <button class="lang-icon-header" onclick="changeLanguage('ar', this)">ع</button>
+        </div>
+        
+        <nav class="main-nav">
+            <div class="nav-icon" onclick="goToPage('onama')" title="O nama">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="nav-icon" onclick="goToPage('postupak')" title="Postupak, uvjeti i zakonski okvir za radnu vizu u BiH">
+                <i class="fas fa-newspaper"></i>
+            </div>
+            <div class="nav-icon" onclick="goToPage('ustupanje')" title="Ustupanje radnika poslodavcima">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <div class="nav-icon" onclick="goToPage('aplikacija')" title="Aplikacija za prijavu radnika">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <div class="nav-icon" onclick="goToPage('kontakt')" title="Kontakt">
+                <i class="fas fa-envelope"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- SVIH 6 STRANICA U JEDNOM -->
+    <!-- ===================================================== -->
+
+    <!-- STRANICA 0: HERO (POČETNA) -->
+    <section id="hero" class="page active-page">
+        <div class="hero-container">
+            <!-- LIJEVA STRANA - TEKST -->
+            <div class="hero-text-side">
+                <div class="hero-text-content">
+                    <h1 class="hero-main-headline">
+                        <span class="hero-gold-text" data-bs="JOB IN BIH" data-en="JOB IN BIH" data-ar="جوب إن بيه">JOB IN BIH</span>
+                        <span class="hero-light-blue-text" data-bs="– VAŠA VEZA SA POSLODAVCIMA KOJI CIJENE ZNANJE, RAD I POUZDANOST." 
+                                                           data-en="– YOUR CONNECTION TO EMPLOYERS WHO VALUE KNOWLEDGE, WORK AND RELIABILITY."
+                                                           data-ar="– اتصالك بأصحاب العمل الذين يقدرون المعرفة والعمل والموثوقية.">
+                            – VAŠA VEZA SA POSLODAVCIMA KOJI CIJENE ZNANJE, RAD I POUZDANOST.
+                        </span>
+                    </h1>
+                </div>
+            </div>
+            
+            <!-- DESNA STRANA - SLIKA -->
+            <div class="hero-image-side"></div>
+        </div>
+    </section>
+
+    <!-- STRANICA 1: O NAMA -->
+    <section id="onama" class="page">
+        <div class="onama-background-flag"></div>
+        
+        <div class="onama-content">
+            <h1 class="section-title" data-bs="O NAMA" data-en="ABOUT US" data-ar="من نحن">O NAMA</h1>
+            <div class="onama-text-container">
+                <p data-bs="Efisa d.o.o. je specijalizirana agencija za posredovanje u zapošljavanju, osnovana s ciljem da stranim radnicima pruži pouzdanu i stručnu podršku u pronalasku posla u Bosni i Hercegovini."
+                   data-en="Efisa d.o.o. is a specialized employment agency, established with the aim of providing foreign workers with reliable and professional support in finding employment in Bosnia and Herzegovina."
+                   data-ar="شركة Efisa d.o.o. هي وكالة متخصصة في التوظيف، تأسست بهدف توفير الدعم الموثوق والمهني للعمال الأجانب في العثور على عمل في البوسنة والهرسك.">
+                    Efisa d.o.o. je specijalizirana agencija za posredovanje u zapošljavanju, osnovana s ciljem da stranim radnicima pruži pouzdanu i stručnu podršku u pronalasku posla u Bosni i Hercegovini.
+                </p>
+                
+                <p data-bs="Znamo da dolazak u novu zemlju i snalaženje na nepoznatom tržištu rada može biti izazovno. Zbog toga svakom kandidatu pristupamo individualno, uz puno razumijevanje njegovih kvalifikacija, radnog iskustva i ličnih očekivanja – bez obzira na to odakle dolazi."
+                   data-en="We understand that arriving in a new country and navigating an unfamiliar labor market can be challenging. That's why we approach each candidate individually, with full understanding of their qualifications, work experience, and personal expectations – regardless of where they come from."
+                   data-ar="نحن ندرك أن الوصول إلى بلد جديد والتكيف مع سوق عمل غير مألوف يمكن أن يكون أمراً صعباً. لذلك نتعامل مع كل مرشح بشكل فردي، مع الفهم الكامل لمؤهلاته وخبراته العملية وتوقعاته الشخصية - بغض النظر عن مكان قدومه.">
+                    Znamo da dolazak u novu zemlju i snalaženje na nepoznatom tržištu rada može biti izazovno. Zbog toga svakom kandidatu pristupamo individualno, uz puno razumijevanje njegovih kvalifikacija, radnog iskustva i ličnih očekivanja – bez obzira na to odakle dolazi.
+                </p>
+                
+                <p data-bs="Naš tim čine iskusni savjetnici koji vas vode kroz cijeli proces – od prvog razgovora i procjene vaših kompetencija, kroz savjetovanje o uslovima rada i života u BiH, sve do posredovanja s poslodavcem i finalizacije ugovora o radu."
+                   data-en="Our team consists of experienced advisors who guide you through the entire process – from the initial interview and assessment of your competencies, through counseling on working and living conditions in BiH, to mediation with employers and finalization of employment contracts."
+                   data-ar="يتكون فريقنا من مستشارين ذوي خبرة يرافقونك خلال العملية بأكملها - من المقابلة الأولى وتقييم كفاءاتك، من خلال الاستشارة حول ظروف العمل والمعيشة في البوسنة والهرسك، وصولاً إلى الوساطة مع أصحاب العمل وإتمام عقود العمل.">
+                    Naš tim čine iskusni savjetnici koji vas vode kroz cijeli proces – od prvog razgovora i procjene vaših kompetencija, kroz savjetovanje o uslovima rada i života u BiH, sve do posredovanja s poslodavcem i finalizacije ugovora o radu.
+                </p>
+                
+                <p data-bs="Sarađujemo s provjerenim poslodavcima u Bosni i Hercegovini koji su otvoreni za zapošljavanje stranih radnika i koji cijene različitost, znanje i radnu posvećenost. Cilj naše agencije je da vaš dolazak u BiH bude što jednostavniji i sigurniji – a vaše zaposlenje dugoročno i stabilno."
+                   data-en="We cooperate with verified employers in Bosnia and Herzegovina who are open to hiring foreign workers and who value diversity, knowledge, and work dedication. Our agency's goal is to make your arrival in BiH as simple and safe as possible – and your employment long-term and stable."
+                   data-ar="نتعاون مع أصحاب عمل موثوقين في البوسنة والهرسك ممن هم منفتحون لتوظيف العمال الأجانب ويقدرون التنوع والمعرفة والتفاني في العمل. هدف وكالتنا هو جعل وصولك إلى البوسنة والهرسك بسيطاً وآمناً قدر الإمكان - وتوظيفك طويل الأمد ومستقراً.">
+                    Sarađujemo s provjerenim poslodavcima u Bosni i Hercegovini koji su otvoreni za zapošljavanje stranih radnika i koji cijene različitost, znanje i radnu posvećenost. Cilj naše agencije je da vaš dolazak u BiH bude što jednostavniji i sigurniji – a vaše zaposlenje dugoročno i stabilno.
+                </p>
+                
+                <p data-bs="Job in BIH – vaš pouzdani partner za zaposlenje u Bosni i Hercegovini."
+                   data-en="Job in BIH – your reliable partner for employment in Bosnia and Herzegovina."
+                   data-ar="Job in BIH - شريكك الموثوق للتوظيف في البوسنة والهرسك.">
+                    Job in BIH – vaš pouzdani partner za zaposlenje u Bosni i Hercegovini.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STRANICA 2: POSTUPAK, UVJETI I ZAKONSKI OKVIR (SA PDF DUGMETOM NA DNU) -->
+    <section id="postupak" class="page">
+        <div class="procedure-section">
+            <div class="flag-bg"></div>
+            
+            <div class="section-content">
+                <h1 class="section-title" data-bs="POSTUPAK, UVJETI I ZAKONSKI OKVIR ZA RADNU VIZU U BIH"
+                                   data-en="PROCEDURE, CONDITIONS AND LEGAL FRAMEWORK FOR WORK VISA IN BIH"
+                                   data-ar="الإجراءات والشروط والإطار القانوني لتأشيرة العمل في البوسنة والهرسك">
+                    POSTUPAK, UVJETI I ZAKONSKI OKVIR ZA RADNU VIZU U BIH
+                </h1>
+                
+                <h2 class="subsection-title" data-bs="POSTUPAK:" data-en="PROCEDURE:" data-ar="الإجراءات:">POSTUPAK:</h2>
+                <ul class="procedure-list">
+                    <li data-bs="Klijent treba da ispuni aplikaciju za prijavu 'Životopis' koja se nalazi na našoj stranici u nastavku."
+                        data-en="The client must complete the application 'Curriculum Vitae' which is available on our website below."
+                        data-ar="يجب على العميل تعبئة طلب 'السيرة الذاتية' المتوفر على موقعنا أدناه.">
+                        Klijent treba da ispuni aplikaciju za prijavu "Životopis" koja se nalazi na našoj stranici u nastavku.
+                    </li>
+                    <li data-bs="Obvezno je popuniti sve tražene podatke sa tačnim informacijama koje se traže sa naznakom za koji posao se aplicira. Nepotpune prijave se ne razmatraju."
+                        data-en="It is mandatory to fill in all required information accurately, indicating which job you are applying for. Incomplete applications will not be considered."
+                        data-ar="من الضروري ملء جميع المعلومات المطلوبة بدقة مع الإشارة إلى الوظيفة المتقدم لها. لن يتم النظر في الطلبات غير المكتملة.">
+                        Obvezno je popuniti sve tražene podatke sa tačnim informacijama koje se traže sa naznakom za koji posao se aplicira. Nepotpune prijave se ne razmatraju.
+                    </li>
+                    <li data-bs="Pravilnu i potpunu prijavu agent proslijeđuje poslodavcima."
+                        data-en="Correct and complete applications are forwarded to employers by our agent."
+                        data-ar="يقوم الوكيل بإحالة الطلبات الصحيحة والكاملة إلى أصحاب العمل.">
+                        Pravilnu i potpunu prijavu agent proslijeđuje poslodavcima.
+                    </li>
+                    <li data-bs="Ukoliko Poslodavac prihvati prijavu od kandidata isti će biti kontaktiran od strane našeg agenta i ugovorit će konferencijski razgovor (agent, klijent i poslodavac)."
+                        data-en="If the Employer accepts the candidate's application, they will be contacted by our agent and a conference call will be scheduled (agent, client and employer)."
+                        data-ar="إذا قبل صاحب العمل طلب المرشح، سيتم الاتصال به من قبل وكيلنا وسيتم ترتيب مكالمة جماعية (الوكيل، العميل وصاحب العمل).">
+                        Ukoliko Poslodavac prihvati prijavu od kandidata isti će biti kontaktiran od strane našeg agenta i ugovorit će konferencijski razgovor (agent, klijent i poslodavac).
+                    </li>
+                </ul>
+
+                <h2 class="subsection-title" data-bs="UVJETI:" data-en="CONDITIONS:" data-ar="الشروط:">UVJETI:</h2>
+                <ul class="conditions-list">
+                    <li data-bs="Kandidat snosi administrativne troškove u ambasadi BIH."
+                        data-en="The candidate bears administrative costs at the BIH embassy."
+                        data-ar="يتحمل المرشح التكاليف الإدارية في سفارة البوسنة والهرسك.">
+                        Kandidat snosi administrativne troškove u ambasadi BIH.
+                    </li>
+                    <li data-bs="Kandidat snosi troškove prevoda i ovjere dokumenata u matičnoj državi."
+                        data-en="The candidate bears the costs of translation and certification of documents in their home country."
+                        data-ar="يتحمل المرشح تكاليف الترجمة والمصادقة على المستندات في بلده الأصلي.">
+                        Kandidat snosi troškove prevoda i ovjere dokumenata u matičnoj državi.
+                    </li>
+                    <li data-bs="Kandidat snosi troškove brze pošte za slanje dokumenata u našu agenciju."
+                        data-en="The candidate bears the costs of express mail for sending documents to our agency."
+                        data-ar="يتحمل المرشح تكاليف البريد السريع لإرسال المستندات إلى وكالتنا.">
+                        Kandidat snosi troškove brze pošte za slanje dokumenata u našu agenciju.
+                    </li>
+                    <li data-bs="Kandidat snosi troškove puta za dolazak u Bosnu i Hercegovinu i odlazak u svoju domovinu."
+                        data-en="The candidate bears the travel costs for coming to Bosnia and Herzegovina and returning to their homeland."
+                        data-ar="يتحمل المرشح تكاليف السفر للوصول إلى البوسنة والهرسك والعودة إلى وطنه.">
+                        Kandidat snosi troškove puta za dolazak u Bosnu i Hercegovinu i odlazak u svoju domovinu.
+                    </li>
+                    <li data-bs="Kandidat snosi sve druge troškove koji mogu izvanredno nastati a u vezi sa privremenim boravkom i dolaskom u Bosnu i Hercegovinu."
+                        data-en="The candidate bears all other costs that may exceptionally arise in connection with temporary residence and arrival in Bosnia and Herzegovina."
+                        data-ar="يتحمل المرشح جميع التكاليف الأخرى التي قد تنشأ بشكل استثنائي فيما يتعلق بالإقامة المؤقتة والوصول إلى البوسنة والهرسك.">
+                        Kandidat snosi sve druge troškove koji mogu izvanredno nastati a u vezi sa privremenim boravkom i dolaskom u Bosnu i Hercegovinu.
+                    </li>
+                    <li data-bs="Poslodavac snosi troškove radne vize koju izdaju institucije u Bosni i Hercegovini."
+                        data-en="The employer bears the costs of the work visa issued by institutions in Bosnia and Herzegovina."
+                        data-ar="يتحمل صاحب العمل تكاليف تأشيرة العمل الصادرة عن المؤسسات في البوسنة والهرسك.">
+                        Poslodavac snosi troškove radne vize koju izdaju institucije u Bosni i Hercegovini.
+                    </li>
+                    <li data-bs="Poslodavac snosi troškove smještaja od 30 dana dok traje probni rad, nakon toga Kandidat sam riješava smještaj."
+                        data-en="The employer bears accommodation costs for 30 days during the probationary period, after which the candidate arranges accommodation independently."
+                        data-ar="يتحمل صاحب العمل تكاليف الإقامة لمدة 30 يوماً خلال فترة التجربة، وبعد ذلك يرتب المرشح السكن بنفسه.">
+                        Poslodavac snosi troškove smještaja od 30 dana dok traje probni rad, nakon toga Kandidat sam riješava smještaj.
+                    </li>
+                    <li data-bs="Poslodavac snosi troškove prijevoza od mjesta stanovanja do mjesta rada u trajanju od 30 dana dok traje probni rad, nakon toga kandidat sam snosi troškove prijevoza."
+                        data-en="The employer bears transportation costs from place of residence to place of work for 30 days during the probationary period, after which the candidate bears transportation costs independently."
+                        data-ar="يتحمل صاحب العمل تكاليف النقل من مكان الإقامة إلى مكان العمل لمدة 30 يوماً خلال فترة التجربة، وبعد ذلك يتحمل المرشح تكاليف النقل بنفسه.">
+                        Poslodavac snosi troškove prijevoza od mjesta stanovanja do mjesta rada u trajanju od 30 dana dok traje probni rad, nakon toga kandidat sam snosi troškove prijevoza.
+                    </li>
+                    <li data-bs="Poslodavac snosi troškove zdravstvenog, penzionog i ličnog dohotka u skladu sa vještinama, sposobnostima i dogovorom sa kandidatom."
+                        data-en="The employer bears the costs of health, pension and personal income in accordance with skills, abilities and agreement with the candidate."
+                        data-ar="يتحمل صاحب العمل تكاليف التأمين الصحي والتقاعدي والدخل الشخصي وفقاً للمهارات والقدرات والاتفاق مع المرشح.">
+                        Poslodavac snosi troškove zdravstvenog, penzionog i ličnog dohotka u skladu sa vještinama, sposobnostima i dogovorom sa kandidatom.
+                    </li>
+                    <li data-bs="Agencija se obvezuje dati stručnu, pravnu, formalnu prevodilačku pomoć i posreduje između kandidata i poslodavca do momenta kada kandidat dobije radnu vizu i postane radnik firme poslodavca."
+                        data-en="The agency undertakes to provide professional, legal, formal translation assistance and mediates between the candidate and the employer until the moment the candidate receives a work visa and becomes an employee of the employer's company."
+                        data-ar="تتعهد الوكالة بتقديم المساعدة المهنية والقانونية والرسمية والترجمة والتوسط بين المرشح وصاحب العمل حتى اللحظة التي يحصل فيها المرشح على تأشيرة عمل ويصبح موظفاً في شركة صاحب العمل.">
+                        Agencija se obvezuje dati stručnu, pravnu, formalnu prevodilačku pomoć i posreduje između kandidata i poslodavca do momenta kada kandidat dobije radnu vizu i postane radnik firme poslodavca.
+                    </li>
+                </ul>
+
+                <h2 class="subsection-title" data-bs="ZAKONSKI OKVIR ZA RADNU VIZU U BIH:"
+                                   data-en="LEGAL FRAMEWORK FOR WORK VISA IN BIH:"
+                                   data-ar="الإطار القانوني لتأشيرة العمل في البوسنة والهرسك:">
+                    ZAKONSKI OKVIR ZA RADNU VIZU U BIH:
+                </h2>
+                <p style="font-weight: 600; margin-bottom: 15px;" 
+                   data-bs="Set potrebnih dokumenata za privremeni boravak dostavlja stranac:"
+                   data-en="Set of required documents for temporary residence is submitted by the foreigner:"
+                   data-ar="مجموعة المستندات المطلوبة للإقامة المؤقتة يقدمها الأجنبي:">
+                    Set potrebnih dokumenata za privremeni boravak dostavlja stranac:
+                </p>
+                <ul class="documents-list">
+                    <li data-bs="Zahtjev za izdavanje odobrenja/produženja odobrenja privremenog boravka u BiH (<a href='https://sps.gov.ba/dokumenti/obrasci/zahtjev_izdavanje_vize.pdf' target='_blank' class='document-link'>link</a>) mora biti čitko popunjen rukom ili elektronski, potpisan od strane podnosioca zahtjeva i isprintan na dva lista papira, obostrano. (ako kandidat ne može popuniti sam traži pomoć naše agencije)."
+                        data-en="Application for issuance/renewal of temporary residence permit in BiH (<a href='https://sps.gov.ba/dokumenti/obrasci/zahtjev_izdavanje_vize.pdf' target='_blank' class='document-link'>link</a>) must be legibly filled by hand or electronically, signed by the applicant and printed on two sheets of paper, double-sided. (if the candidate cannot fill it out themselves, they seek assistance from our agency)."
+                        data-ar="طلب إصدار/تمديد تصريح الإقامة المؤقتة في البوسنة والهرسك (<a href='https://sps.gov.ba/dokumenti/obrasci/zahtjev_izdavanje_vize.pdf' target='_blank' class='document-link'>الرابط</a>) يجب تعبئته بشكل مقروء يدوياً أو إلكترونياً، موقعاً من مقدم الطلب ومطبوعاً على ورقتين، على الوجهين. (إذا لم يتمكن المرشح من تعبئته بنفسه، يطلب المساعدة من وكالتنا).">
+                        Zahtjev za izdavanje odobrenja/produženja odobrenja privremenog boravka u BiH (<a href='https://sps.gov.ba/dokumenti/obrasci/zahtjev_izdavanje_vize.pdf' target='_blank' class='document-link'>link</a>) mora biti čitko popunjen rukom ili elektronski, potpisan od strane podnosioca zahtjeva i isprintan na dva lista papira, obostrano. (ako kandidat ne može popuniti sam traži pomoć naše agencije).
+                    </li>
+                    <li data-bs="150 KM (cca 80 eur) administrativne takse za odobrenje/produženje privremenog boravka."
+                        data-en="150 KM (approx 80 eur) administrative fee for approval/renewal of temporary residence."
+                        data-ar="150 كم (حوالي 80 يورو) رسم إداري للموافقة/تمديد الإقامة المؤقتة.">
+                        150 KM (cca 80 eur) administrativne takse za odobrenje/produženje privremenog boravka.
+                    </li>
+                    <li data-bs="Fotografija novijeg datuma, formata 35x45 mm."
+                        data-en="Recent photograph, size 35x45 mm."
+                        data-ar="صورة فوتوغرافية حديثة، مقاس 35×45 مم.">
+                        Fotografija novijeg datuma, formata 35x45 mm.
+                    </li>
+                    <li data-bs="Fotokopija pasoša (stranica sa generalijskim podacima, posljednji ulaz u BiH, viza za dugoročni boravak viza 'D' BiH) - rok važenja putne isprave treba biti najmanje tri mjeseca duži od perioda za koji se traži odobrenje privremenog boravka. Obavezna su dva primjerka u jednom setu dokumenata."
+                        data-en="Photocopy of passport (page with general data, last entry into BiH, long-stay visa 'D' BiH) - validity of travel document should be at least three months longer than the period for which temporary residence approval is sought. Two copies are required in one set of documents."
+                        data-ar="صورة من جواز السفر (صفحة البيانات العامة، آخر دخول إلى البوسنة والهرسك، تأشيرة الإقامة الطويلة 'D' للبوسنة والهرسك) - يجب أن تكون صلاحية وثيقة السفر أطول بثلاثة أشهر على الأقل من الفترة المطلوب الموافقة على الإقامة المؤقتة فيها. مطلوب نسختين في مجموعة واحدة من المستندات.">
+                        Fotokopija pasoša (stranica sa generalijskim podacima, posljednji ulaz u BiH, viza za dugoročni boravak viza "D" BiH) - rok važenja putne isprave treba biti najmanje tri mjeseca duži od perioda za koji se traži odobrenje privremenog boravka. Obavezna su dva primjerka u jednom setu dokumenata.
+                    </li>
+                    <li data-bs="Ljekarsko uvjerenje iz kojeg je vidljivo da stranac ne boluje od bolesti koja predstavlja prijetnju javnom zdravlju u BiH, koje ne može biti starije od tri mjeseca, izdato od strane ovlaštene zdravstvene ustanove za obavljanje ljekarskog pregleda (ljekarsko uvjerenje se ne prilaže prilikom produženja boravka osim u izuzetnim slučajevima po procjeni nadležnog terenskog centra)."
+                        data-en="Medical certificate showing that the foreigner does not suffer from diseases that pose a threat to public health in BiH, which cannot be older than three months, issued by an authorized health institution for medical examination (medical certificate is not attached when extending residence except in exceptional cases at the discretion of the competent field center)."
+                        data-ar="شهادة طبية تظهر أن الأجنبي لا يعاني من أمراض تشكل تهديداً للصحة العامة في البوسنة والهرسك، لا يمكن أن تكون أقدم من ثلاثة أشهر، صادرة عن مؤسسة صحية مرخصة لإجراء الفحص الطبي (لا ترفق الشهادة الطبية عند تمديد الإقامة إلا في حالات استثنائية حسب تقدير المركز الميداني المختص).">
+                        Ljekarsko uvjerenje iz kojeg je vidljivo da stranac ne boluje od bolesti koja predstavlja prijetnju javnom zdravlju u BiH, koje ne može biti starije od tri mjeseca, izdato od strane ovlaštene zdravstvene ustanove za obavljanje ljekarskog pregleda (ljekarsko uvjerenje se ne prilaže prilikom produženja boravka osim u izuzetnim slučajevima po procjeni nadležnog terenskog centra).
+                    </li>
+                    <li data-bs="Potvrda – uvjerenje da se protiv stranca ne vodi krivični postupak i Potvrda – uvjerenje da stranac nije kažnjavan za krivično djelo koju izdaje nadležni organ države, gdje stranac ima uobičajeno mjesto boravka koje ne mogu biti starije od 6 mjeseci."
+                        data-en="Certificate - confirmation that no criminal proceedings are being conducted against the foreigner and Certificate - confirmation that the foreigner has not been convicted of a criminal offense issued by the competent authority of the country where the foreigner has habitual residence, which cannot be older than 6 months."
+                        data-ar="شهادة - تأكيد بعدم وجود إجراءات جنائية ضد الأجنبي وشهادة - تأكيد بعدم إدانة الأجنبي بجريمة جنائية صادرة عن السلطة المختصة في البلد الذي يقيم فيه الأجنبي عادة، ولا يمكن أن تكون أقدم من 6 أشهر.">
+                        Potvrda – uvjerenje da se protiv stranca ne vodi krivični postupak i Potvrda – uvjerenje da stranac nije kažnjavan za krivično djelo koju izdaje nadležni organ države, gdje stranac ima uobičajeno mjesto boravka koje ne mogu biti starije od 6 mjeseci.
+                    </li>
+                </ul>
+
+                <p style="font-weight: 700; color: var(--accent-primary); margin: 20px 0;"
+                   data-bs="Sva strana dokumenta moraju biti prevedena na Bosanski jezik koji je u službenoj upotrebi u BiH!"
+                   data-en="All foreign documents must be translated into Bosnian language which is in official use in BiH!"
+                   data-ar="جميع المستندات الأجنبية يجب أن تترجم إلى اللغة البوسنية المستخدمة رسمياً في البوسنة والهرسك!">
+                    Sva strana dokumenta moraju biti prevedena na Bosanski jezik koji je u službenoj upotrebi u BiH!
+                </p>
+
+                <div class="important-note">
+                    <strong data-bs="VAŽNA NAPOMENA:" data-en="IMPORTANT NOTE:" data-ar="ملاحظة هامة:">VAŽNA NAPOMENA:</strong><br>
+                    <span data-bs="Svi navedeni dokazi se prilažu u originalu ili ovjerenoj kopiji u konzulatu ili ambasadi Bosne i Hercegovine u zemlji stranca jedan set, drugi set u ovjerenoj kopiji skupa sa potvrdom o predaji dokumenta u ambasadi ili konzulatu stranac šalje brzom poštom na adresu agencije:"
+                          data-en="All mentioned evidence is attached in original or certified copy to the consulate or embassy of Bosnia and Herzegovina in the foreigner's country (one set), the other set in certified copy together with the confirmation of submission of documents at the embassy or consulate is sent by the foreigner by express mail to the agency address:"
+                          data-ar="جميع الأدلة المذكورة ترفق أصولاً أو نسخاً مصدقة لدى قنصلية أو سفارة البوسنة والهرسك في بلد الأجنبي (مجموعة واحدة)، المجموعة الأخرى كنسخة مصدقة مع تأكيد تسليم المستندات في السفارة أو القنصلية يرسلها الأجنبي بالبريد السريع إلى عنوان الوكالة:">
+                        Svi navedeni dokazi se prilažu u originalu ili ovjerenoj kopiji u konzulatu ili ambasadi Bosne i Hercegovine u zemlji stranca jedan set, drugi set u ovjerenoj kopiji skupa sa potvrdom o predaji dokumenta u ambasadi ili konzulatu stranac šalje brzom poštom na adresu agencije:
+                    </span>
+                </div>
+
+                <div class="agency-address" data-bs="Efisa doo, 23. maj br 3, 75260 Kalesija, Bosna i Hercegovina"
+                                       data-en="Efisa doo, 23. maj br 3, 75260 Kalesija, Bosnia and Herzegovina"
+                                       data-ar="Efisa doo, 23. maj br 3, 75260 Kalesija, البوسنة والهرسك">
+                    Efisa doo, 23. maj br 3, 75260 Kalesija, Bosna i Hercegovina
+                </div>
+
+                <div class="section-tagline" data-bs="Job in BIH – vaš pouzdani partner za zaposlenje u Bosni i Hercegovini."
+                                      data-en="Job in BIH – your reliable partner for employment in Bosnia and Herzegovina."
+                                      data-ar="Job in BIH - شريكك الموثوق للتوظيف في البوسنة والهرسك.">
+                    Job in BIH – vaš pouzdani partner za zaposlenje u Bosni i Hercegovini.
+                </div>
+
+                <!-- PDF DUGME NA DNU STRANICE 2/5 -->
+                <div class="procedure-footer-buttons no-print">
+                    <button type="button" class="procedure-pdf-btn" onclick="window.print()" 
+                            data-bs="🖨️ ispiši / spremi kao PDF" 
+                            data-en="🖨️ print / save as PDF" 
+                            data-ar="🖨️ طباعة / حفظ كملف PDF">
+                        🖨️ ispiši / spremi kao PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STRANICA 3: APLIKACIJA - ŽIVOTOPIS (SA PREVODOM PLACEHOLDERA) -->
+    <section id="aplikacija" class="page">
+        <div class="main-content" style="max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px;">
+            <div class="cv-container">
+                <div class="header">
+                    <h1 class="cv-title" data-bs="ŽIVOTOPIS" data-en="CURRICULUM VITAE" data-ar="السيرة الذاتية">ŽIVOTOPIS</h1>
+                    <p class="cv-subtitle" data-bs="Obrazac za popunjavanje - Agencija Efisa doo Sarajevo" data-en="Application form - Efisa doo Sarajevo" data-ar="استمارة التقديم - وكالة Efisa ذ.م.م سراييفو">Obrazac za popunjavanje - Agencija Efisa doo Sarajevo</p>
+                </div>
+
+                <form id="cvForm" enctype="multipart/form-data">
+                    <!-- Web3Forms hidden polja - SVA TRI NAČINA ZA SUBJECT SU IMPLEMENTIRANA -->
+                    <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
+                    
+                    <!-- NAČIN 1: Pre-defined Subject (skriveno polje - default) -->
+                    <input type="hidden" name="subject" value="Nova prijava za posao - Job in BIH">
+                    
+                    <!-- NAČIN 2: User Generated Subject (komentarisano - ne koristimo jer imamo custom) -->
+                    <!-- <input type="text" name="subject" placeholder="Unesite naslov poruke" style="display:none;"> -->
+                    
+                    <!-- NAČIN 3: Custom Subject sa JavaScript (implementirano u posaljiFormu() funkciji) -->
+                    
+                    <!-- Redirect na false da ostane na istoj stranici -->
+                    <input type="hidden" name="redirect" value="false">
+                    <input type="hidden" name="from_name" value="Job in BIH aplikacija">
+                    
+                    <!-- 1. LIČNI PODACI - SA FOTOGRAFIJOM I NOVIM POLJEM -->
+                    <div class="section">
+                        <div class="section-title" data-bs="1. Lični podaci" data-en="1. Personal Information" data-ar="١. المعلومات الشخصية">1. Lični podaci</div>
+                        
+                        <!-- RED ZA FOTOGRAFIJU I PODATKE -->
+                        <div class="personal-data-row">
+                            <!-- Kolona za fotografiju (OBAVEZNA) -->
+                            <div class="photo-column">
+                                <div class="photo-upload" onclick="document.getElementById('foto').click();">
+                                    <i class="fas fa-camera"></i>
+                                    <span data-bs="Klikni za upload" data-en="Click to upload" data-ar="انقر للتحميل">Klikni za upload</span>
+                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" required style="display: none;">
+                                </div>
+                                <div class="photo-label required" data-bs="Fotografija" data-en="Photo" data-ar="صورة شخصية">Fotografija</div>
+                            </div>
+                            
+                            <!-- Kolona za podatke -->
+                            <div class="data-column">
+                                <!-- NOVO POLJE: Prijava posao (obavezno) - koristimo za subject -->
+                                <div class="form-row">
+                                    <div class="form-label required" data-bs="Prijava posao" data-en="Job Application" data-ar="تقديم الوظيفة">Prijava posao</div>
+                                    <div class="form-field">
+                                        <input type="text" 
+                                               id="prijava_posao"
+                                               name="prijava_posao" 
+                                               placeholder="zavarivač"
+                                               data-placeholder-bs="zavarivač"
+                                               data-placeholder-en="welder"
+                                               data-placeholder-ar="لحام"
+                                               required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-label required" data-bs="Ime i prezime" data-en="Full Name" data-ar="الاسم الكامل">Ime i prezime</div>
+                                    <div class="form-field">
+                                        <input type="text" 
+                                               id="ime_prezime"
+                                               name="ime_prezime" 
+                                               placeholder="npr. Amra Hadžić"
+                                               data-placeholder-bs="npr. Amra Hadžić"
+                                               data-placeholder-en="e.g. John Doe"
+                                               data-placeholder-ar="مثال: أحمد محمد"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-label required" data-bs="Titula / zanimanje" data-en="Title / Profession" data-ar="اللقب / المهنة">Titula / zanimanje</div>
+                                    <div class="form-field">
+                                        <input type="text" 
+                                               name="titula" 
+                                               placeholder="npr. magistra ekonomije / prvostupnik sestrinstva"
+                                               data-placeholder-bs="npr. magistra ekonomije / prvostupnik sestrinstva"
+                                               data-placeholder-en="e.g. Master of Economics / Bachelor of Nursing"
+                                               data-placeholder-ar="مثال: ماجستير اقتصاد / بكالوريوس تمريض"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-label required" data-bs="Adresa stanovanja" data-en="Residential Address" data-ar="عنوان السكن">Adresa stanovanja</div>
+                                    <div class="form-field">
+                                        <input type="text" 
+                                               name="adresa" 
+                                               placeholder="Ulica i broj, poštanski broj, grad (npr. Sarajevo, Tuzla, Mostar)"
+                                               data-placeholder-bs="Ulica i broj, poštanski broj, grad (npr. Sarajevo, Tuzla, Mostar)"
+                                               data-placeholder-en="Street and number, postal code, city (e.g. Sarajevo, Tuzla, Mostar)"
+                                               data-placeholder-ar="الشارع والرقم، الرمز البريدي، المدينة (مثال: سراييفو، توزلا، موستار)"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-label required" data-bs="Telefon / mobitel" data-en="Phone / Mobile" data-ar="الهاتف / الجوال">Telefon / mobitel</div>
+                                    <div class="form-field">
+                                        <input type="tel" 
+                                               name="telefon" 
+                                               placeholder="+387 61 xxx xxx"
+                                               data-placeholder-bs="+387 61 xxx xxx"
+                                               data-placeholder-en="+387 61 xxx xxx"
+                                               data-placeholder-ar="+387 61 xxx xxx"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-label required" data-bs="E-mail adresa" data-en="E-mail Address" data-ar="البريد الإلكتروني">E-mail adresa</div>
+                                    <div class="form-field">
+                                        <input type="email" 
+                                               name="email" 
+                                               placeholder="ime.prezime@email.ba"
+                                               data-placeholder-bs="ime.prezime@email.ba"
+                                               data-placeholder-en="name.surname@email.com"
+                                               data-placeholder-ar="الاسم.اللقب@email.com"
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-label" data-bs="LinkedIn / web stranica" data-en="LinkedIn / Website" data-ar="LinkedIn / الموقع الإلكتروني">LinkedIn / web stranica</div>
+                                    <div class="form-field">
+                                        <input type="url" 
+                                               name="linkedin" 
+                                               placeholder="https://linkedin.com/in/ime (opcionalno)"
+                                               data-placeholder-bs="https://linkedin.com/in/ime (opcionalno)"
+                                               data-placeholder-en="https://linkedin.com/in/name (optional)"
+                                               data-placeholder-ar="https://linkedin.com/in/الاسم (اختياري)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. RADNO ISKUSTVO -->
+                    <div class="section">
+                        <div class="section-title" data-bs="2. Radno iskustvo" data-en="2. Work Experience" data-ar="٢. الخبرة العملية">2. Radno iskustvo</div>
+
+                        <div class="repeat-block" id="iskustvo_1">
+                            <div class="block-title" data-bs="📁 Radno mjesto 1" data-en="📁 Job 1" data-ar="📁 الوظيفة ١">📁 Radno mjesto 1</div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Period (od – do)" data-en="Period (from – to)" data-ar="الفترة (من – إلى)">Period (od – do)</div>
+                                <div class="form-field">
+                                    <input type="text" 
+                                           name="iskustvo_1_period" 
+                                           placeholder="npr. 06/2020 – danas"
+                                           data-placeholder-bs="npr. 06/2020 – danas"
+                                           data-placeholder-en="e.g. 06/2020 – present"
+                                           data-placeholder-ar="مثال: ٠٦/٢٠٢٠ – حتى الآن"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Poslodavac / firma" data-en="Employer / Company" data-ar="صاحب العمل / الشركة">Poslodavac / firma</div>
+                                <div class="form-field">
+                                    <input type="text" 
+                                           name="iskustvo_1_poslodavac" 
+                                           placeholder="npr. BH Telecom d.d. Sarajevo"
+                                           data-placeholder-bs="npr. BH Telecom d.d. Sarajevo"
+                                           data-placeholder-en="e.g. BH Telecom d.d. Sarajevo"
+                                           data-placeholder-ar="مثال: BH Telecom ذ.م.م. سراييفو"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Radna pozicija" data-en="Job Position" data-ar="المسمى الوظيفي">Radna pozicija</div>
+                                <div class="form-field">
+                                    <input type="text" 
+                                           name="iskustvo_1_pozicija" 
+                                           placeholder="npr. viši stručnjak za prodaju"
+                                           data-placeholder-bs="npr. viši stručnjak za prodaju"
+                                           data-placeholder-en="e.g. Senior Sales Specialist"
+                                           data-placeholder-ar="مثال: أخصائي مبيعات أول"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Opis posla / postignuća" data-en="Job Description / Achievements" data-ar="وصف العمل / الإنجازات">Opis posla / postignuća</div>
+                                <div class="form-field">
+                                    <textarea rows="3" 
+                                              name="iskustvo_1_opis" 
+                                              placeholder="ukratko opišite glavne zadaće, projekte, uspjehe…"
+                                              data-placeholder-bs="ukratko opišite glavne zadaće, projekte, uspjehe…"
+                                              data-placeholder-en="briefly describe main tasks, projects, achievements…"
+                                              data-placeholder-ar="صف بإيجاز المهام الرئيسية والمشاريع والإنجازات…"
+                                              required></textarea>
+                                </div>
+                            </div>
+                            <div class="block-remove"><button type="button" onclick="this.closest('.repeat-block').remove()" data-bs="✕ ukloni ovaj blok" data-en="✕ remove this block" data-ar="✕ إزالة هذه الكتلة">✕ ukloni ovaj blok</button></div>
+                        </div>
+
+                        <button class="add-btn" type="button" onclick="dodajIskustvo()" data-bs="+ dodaj još jedno radno iskustvo" data-en="+ add another work experience" data-ar="+ أضف خبرة عمل أخرى">+ dodaj još jedno radno iskustvo</button>
+                    </div>
+
+                    <!-- 3. OBRAZOVANJE -->
+                    <div class="section">
+                        <div class="section-title" data-bs="3. Obrazovanje" data-en="3. Education" data-ar="٣. التعليم">3. Obrazovanje</div>
+
+                        <div class="repeat-block" id="obrazovanje_1">
+                            <div class="block-title" data-bs="🎓 Obrazovanje 1" data-en="🎓 Education 1" data-ar="🎓 التعليم ١">🎓 Obrazovanje 1</div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Godine pohađanja" data-en="Years Attended" data-ar="سنوات الدراسة">Godine pohađanja</div>
+                                <div class="form-field">
+                                    <input type="text" 
+                                           name="obrazovanje_1_godine" 
+                                           placeholder="npr. 2015 – 2019"
+                                           data-placeholder-bs="npr. 2015 – 2019"
+                                           data-placeholder-en="e.g. 2015 – 2019"
+                                           data-placeholder-ar="مثال: ٢٠١٥ – ٢٠١٩"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Ustanova / fakultet / škola" data-en="Institution / University / School" data-ar="المؤسسة / الجامعة / المدرسة">Ustanova / fakultet / škola</div>
+                                <div class="form-field">
+                                    <input type="text" 
+                                           name="obrazovanje_1_ustanova" 
+                                           placeholder="npr. Univerzitet u Sarajevu"
+                                           data-placeholder-bs="npr. Univerzitet u Sarajevu"
+                                           data-placeholder-en="e.g. University of Sarajevo"
+                                           data-placeholder-ar="مثال: جامعة سراييفو"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-label required" data-bs="Stečena kvalifikacija / smjer" data-en="Qualification / Field of Study" data-ar="المؤهل / التخصص">Stečena kvalifikacija / smjer</div>
+                                <div class="form-field">
+                                    <input type="text" 
+                                           name="obrazovanje_1_kvalifikacija" 
+                                           placeholder="magistar ekonomije / prvostupnik prava"
+                                           data-placeholder-bs="magistar ekonomije / prvostupnik prava"
+                                           data-placeholder-en="Master of Economics / Bachelor of Law"
+                                           data-placeholder-ar="ماجستير اقتصاد / بكالوريوس قانون"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="block-remove"><button type="button" onclick="this.closest('.repeat-block').remove()" data-bs="✕ ukloni" data-en="✕ remove" data-ar="✕ إزالة">✕ ukloni</button></div>
+                        </div>
+
+                        <button class="add-btn" type="button" onclick="dodajObrazovanje()" data-bs="+ dodaj još jedno obrazovanje" data-en="+ add another education" data-ar="+ أضف تعليماً آخر">+ dodaj još jedno obrazovanje</button>
+                    </div>
+
+                    <!-- 4. VJEŠTINE I ZNANJA (SVA POLJA OPCIONALNA) -->
+                    <div class="section">
+                        <div class="section-title" data-bs="4. Vještine i znanja" data-en="4. Skills" data-ar="٤. المهارات">4. Vještine i znanja</div>
+
+                        <div class="form-row">
+                            <div class="form-label optional" data-bs="Strani jezici" data-en="Foreign Languages" data-ar="اللغات الأجنبية">Strani jezici</div>
+                            <div class="form-field">
+                                <input type="text" 
+                                       name="jezici" 
+                                       placeholder="npr. engleski (C1), njemački (A2), turski (osnovno)"
+                                       data-placeholder-bs="npr. engleski (C1), njemački (A2), turski (osnovno)"
+                                       data-placeholder-en="e.g. English (C1), German (A2), Turkish (basic)"
+                                       data-placeholder-ar="مثال: الإنجليزية (C1)، الألمانية (A2)، التركية (أساسي)">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-label optional" data-bs="Digitalne vještine" data-en="Digital Skills" data-ar="المهارات الرقمية">Digitalne vještine</div>
+                            <div class="form-field">
+                                <input type="text" 
+                                       name="digitalno" 
+                                       placeholder="MS Office, programski jezici, alati (npr. WordPress, Excel, Canva…)"
+                                       data-placeholder-bs="MS Office, programski jezici, alati (npr. WordPress, Excel, Canva…)"
+                                       data-placeholder-en="MS Office, programming languages, tools (e.g. WordPress, Excel, Canva…)"
+                                       data-placeholder-ar="Microsoft Office، لغات برمجة، أدوات (مثال: ووردبريس، إكسل، كانفا…)">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-label optional" data-bs="Vozačka dozvola" data-en="Driving License" data-ar="رخصة القيادة">Vozačka dozvola</div>
+                            <div class="form-field">
+                                <input type="text" 
+                                       name="vozacka" 
+                                       placeholder="B kategorija, aktivni vozač"
+                                       data-placeholder-bs="B kategorija, aktivni vozač"
+                                       data-placeholder-en="B category, active driver"
+                                       data-placeholder-ar="الفئة ب، سائق نشط">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-label optional" data-bs="Ostale vještine / certifikati" data-en="Other Skills / Certificates" data-ar="مهارات أخرى / شهادات">Ostale vještine / certifikati</div>
+                            <div class="form-field">
+                                <textarea rows="3" 
+                                          name="ostale_vjestine" 
+                                          placeholder="tečaj prve pomoći, certifikat za digitalni marketing, rad u timu…"
+                                          data-placeholder-bs="tečaj prve pomoći, certifikat za digitalni marketing, rad u timu…"
+                                          data-placeholder-en="first aid course, digital marketing certificate, teamwork…"
+                                          data-placeholder-ar="دورة إسعافات أولية، شهادة تسويق رقمي، عمل جماعي…"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. UPLOAD DOKUMENATA -->
+                    <div class="section">
+                        <div class="section-title" data-bs="5. Prilozi (opcionalno)" data-en="5. Attachments (optional)" data-ar="٥. المرفقات (اختياري)">5. Prilozi (opcionalno)</div>
+                        
+                        <div class="file-row">
+                            <div class="file-label" data-bs="CV kandidata (PDF)" data-en="Candidate's CV (PDF)" data-ar="السيرة الذاتية للمرشح (PDF)">CV kandidata (PDF)</div>
+                            <div class="file-input">
+                                <input type="file" name="cv_upload" accept=".pdf">
+                            </div>
+                        </div>
+
+                        <div class="file-row">
+                            <div class="file-label" data-bs="Preporuka poslodavca (PDF)" data-en="Employer's Recommendation (PDF)" data-ar="توصية من صاحب العمل (PDF)">Preporuka poslodavca (PDF)</div>
+                            <div class="file-input">
+                                <input type="file" name="preporuka_upload" accept=".pdf">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. DODATNE INFORMACIJE -->
+                    <div class="section">
+                        <div class="section-title" data-bs="6. Dodatne informacije (opcija)" data-en="6. Additional Information (optional)" data-ar="٦. معلومات إضافية (اختياري)">6. Dodatne informacije (opcija)</div>
+                        <div class="form-row">
+                            <div class="form-label" data-bs="Interesi, hobiji, volontiranje" data-en="Interests, Hobbies, Volunteering" data-ar="الاهتمامات، الهوايات، التطوع">Interesi, hobiji, volontiranje</div>
+                            <div class="form-field">
+                                <input type="text" 
+                                       name="interesi" 
+                                       placeholder="npr. planinarenje, član udruge Mladi lideri Sarajevo"
+                                       data-placeholder-bs="npr. planinarenje, član udruge Mladi lideri Sarajevo"
+                                       data-placeholder-en="e.g. hiking, member of Young Leaders Sarajevo association"
+                                       data-placeholder-ar="مثال: تسلق الجبال، عضو في جمعية القادة الشباب سراييفو">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-row required">
+                        <input type="checkbox" name="nisam_robot" id="nisam_robot" value="da" required>
+                        <label for="nisam_robot" data-bs="Nisam robot" data-en="I am not a robot" data-ar="أنا لست روبوت">Nisam robot</label>
+                    </div>
+
+                    <div class="checkbox-row required">
+                        <input type="checkbox" name="suglasnost" id="suglasnost" value="da" required>
+                        <label for="suglasnost" data-bs="Slažem se da agencija Efisa doo može moje podatke uputiti trećim licima" data-en="I agree that Efisa doo may share my data with third parties" data-ar="أوافق على أن تقوم وكالة Efisa ذ.م.م بمشاركة بياناتي مع أطراف ثالثة">Slažem se da agencija Efisa doo može moje podatke uputiti trećim licima</label>
+                    </div>
+
+                    <div class="info-note no-print">
+                        <i data-bs="Sivi tekst u poljima su primjeri – upišite svoje podatke preko njih. Polja označena sa * su obavezna." 
+                           data-en="Gray text in fields are examples - enter your data over them. Fields marked with * are required." 
+                           data-ar="النص الرمادي في الحقول هو أمثلة - أدخل بياناتك فوقها. الحقول التي تحمل علامة * إلزامية.">
+                            Sivi tekst u poljima su primjeri – upišite svoje podatke preko njih. Polja označena sa * su obavezna.
+                        </i>
+                    </div>
+
+                    <div class="footer-buttons no-print">
+                        <button type="button" class="submit-btn" onclick="posaljiFormu()" 
+                                data-bs="📧 Pošalji prijavu" 
+                                data-en="📧 Send Application" 
+                                data-ar="📧 إرسال الطلب">
+                            📧 Pošalji prijavu
+                        </button>
+                        <button type="button" class="print-btn" onclick="window.print()" 
+                                data-bs="🖨️ ispiši / spremi kao PDF" 
+                                data-en="🖨️ print / save as PDF" 
+                                data-ar="🖨️ طباعة / حفظ كملف PDF">
+                            🖨️ ispiši / spremi kao PDF
+                        </button>
+                        <button type="button" class="print-btn" onclick="location.reload()" 
+                                data-bs="⟲ resetiraj obrazac" 
+                                data-en="⟲ reset form" 
+                                data-ar="⟲ إعادة تعيين النموذج">
+                            ⟲ resetiraj obrazac
+                        </button>
+                    </div>
+
+                    <div id="form-status"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- STRANICA 4: USTUPANJE RADNIKA (U PRIPREMI) -->
+    <section id="ustupanje" class="page">
+        <div class="warning-container">
+            <div class="warning-card">
+                <div class="warning-sign">
+                    <i class="fas fa-triangle-exclamation"></i>
+                </div>
+                
+                <div class="warning-text" data-bs="OVA STRANICA JE U PRIPREMI" 
+                                           data-en="THIS PAGE IS UNDER CONSTRUCTION" 
+                                           data-ar="هذه الصفحة قيد الإعداد">
+                    OVA STRANICA JE U PRIPREMI
+                </div>
+                
+                <div class="warning-subtext no-print" data-bs="Molimo posjetite nas kasnije" 
+                                                        data-en="Please visit us later" 
+                                                        data-ar="يرجى زيارة موقعنا لاحقاً">
+                    Molimo posjetite nas kasnije
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STRANICA 5: KONTAKT -->
+    <section id="kontakt" class="page">
+        <div class="contact-container">
+            <div class="contact-card">
+                <div class="company-name" data-bs="Efisa doo" data-en="Efisa doo" data-ar="إفيسا ذ.م.م">Efisa doo</div>
+                
+                <div class="company-address" data-bs="23. maj br 3<br>75260 Kalesija, Bosna i Hercegovina" 
+                                              data-en="23. maj no. 3<br>75260 Kalesija, Bosnia and Herzegovina" 
+                                              data-ar="٢٣ مايو رقم ٣<br>٧٥٢٦٠ كاليسيا، البوسنة والهرسك">
+                    <p>23. maj br 3</p>
+                    <p>75260 Kalesija, Bosna i Hercegovina</p>
+                </div>
+
+                <div class="company-email">
+                    <a href="mailto:efisa.job@gmail.com" data-bs="efisa.job@gmail.com" 
+                                                          data-en="efisa.job@gmail.com" 
+                                                          data-ar="efisa.job@gmail.com">efisa.job@gmail.com</a>
+                </div>
+
+                <div class="contact-agents">
+                    <div class="agent-card arabic-agent">
+                        <div class="agent-language" data-bs="AGENT ZA ARAPSKI JEZIK" 
+                                                    data-en="ARABIC SPEAKING AGENT" 
+                                                    data-ar="وكيل متحدث بالعربية">AGENT ZA ARAPSKI JEZIK</div>
+                        <div class="agent-contact">
+                            <div class="agent-icons">
+                                <a href="viber://chat?number=+38762333425" title="Viber">
+                                    <i class="fab fa-viber"></i>
+                                </a>
+                                <a href="https://wa.me/38762333425" title="WhatsApp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <span class="agent-phone">+387 62 333 425</span>
+                        </div>
+                    </div>
+
+                    <div class="agent-card">
+                        <div class="agent-language" data-bs="AGENT ZA ENGLESKI I BOSANSKI JEZIK" 
+                                                    data-en="ENGLISH & BOSNIAN SPEAKING AGENT" 
+                                                    data-ar="وكيل متحدث بالإنجليزية والبوسنية">AGENT ZA ENGLESKI I BOSANSKI JEZIK</div>
+                        <div class="agent-contact">
+                            <div class="agent-icons">
+                                <a href="viber://chat?number=+387603248445" title="Viber">
+                                    <i class="fab fa-viber"></i>
+                                </a>
+                                <a href="https://wa.me/387603248445" title="WhatsApp" target="_blank">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                            <span class="agent-phone">+387 60 324 844 5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER NAVIGACIJA -->
+    <footer class="footer-nav">
+        <button class="nav-btn" id="backBtn" onclick="navigatePage('prev')">
+            <i class="fas fa-arrow-left"></i> <span data-bs="Nazad" data-en="Back" data-ar="رجوع">Nazad</span>
+        </button>
+        <div class="page-indicator-footer" id="page-counter">Početna</div>
+        <button class="nav-btn" id="forwardBtn" onclick="navigatePage('next')">
+            <span data-bs="Naprijed" data-en="Forward" data-ar="التالي">Naprijed</span> <i class="fas fa-arrow-right"></i>
+        </button>
+    </footer>
+
+    <script>
+        // =====================================================
+        // GLOBALNE VARIJABLE
+        // =====================================================
+        const pages = ['hero', 'onama', 'postupak', 'aplikacija', 'ustupanje', 'kontakt'];
+        const pageNames = {
+            'hero': { bs: 'Početna', en: 'Home', ar: 'الصفحة الرئيسية' },
+            'onama': { bs: 'O nama', en: 'About Us', ar: 'من نحن' },
+            'postupak': { bs: 'Postupak', en: 'Procedure', ar: 'الإجراءات' },
+            'aplikacija': { bs: 'Životopis', en: 'Application', ar: 'السيرة الذاتية' },
+            'ustupanje': { bs: 'Ustupanje', en: 'Leasing', ar: 'التأجير' },
+            'kontakt': { bs: 'Kontakt', en: 'Contact', ar: 'اتصل بنا' }
+        };
+        let currentPageIndex = 0;
+        let currentLang = 'bs';
+
+        // =====================================================
+        // NAVIGACIJA IZMEĐU STRANICA
+        // =====================================================
+        function goToPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active-page');
+                currentPageIndex = pages.indexOf(pageId);
+                updatePageIndicator();
+                updateActiveNavIcon(pageId);
+                updateHeaderTitle();
+            }
+        }
+
+        function navigatePage(direction) {
+            if (direction === 'prev' && currentPageIndex > 0) {
+                currentPageIndex--;
+            } else if (direction === 'next' && currentPageIndex < pages.length - 1) {
+                currentPageIndex++;
+            } else {
+                return;
+            }
+            
+            goToPage(pages[currentPageIndex]);
+        }
+
+        function updatePageIndicator() {
+            const indicator = document.getElementById('page-counter');
+            if (currentPageIndex === 0) {
+                indicator.textContent = currentLang === 'bs' ? 'Početna' : currentLang === 'en' ? 'Home' : 'الصفحة الرئيسية';
+            } else {
+                indicator.textContent = `Stranica ${currentPageIndex}/5`;
+            }
+        }
+
+        function updateActiveNavIcon(pageId) {
+            document.querySelectorAll('.nav-icon').forEach((icon, index) => {
+                icon.classList.remove('active');
+                if (pageId === 'hero') return;
+                if ((pageId === 'onama' && index === 0) ||
+                    (pageId === 'postupak' && index === 1) ||
+                    (pageId === 'aplikacija' && index === 3) ||
+                    (pageId === 'ustupanje' && index === 2) ||
+                    (pageId === 'kontakt' && index === 4)) {
+                    icon.classList.add('active');
+                }
+            });
+        }
+
+        function updateHeaderTitle() {
+            const indicator = document.getElementById('current-page-indicator');
+            const pageId = pages[currentPageIndex];
+            indicator.textContent = `- ${pageNames[pageId][currentLang]}`;
+        }
+
+        // =====================================================
+        // FUNKCIJA ZA PROMJENU JEZIKA (SA PREVODOM PLACEHOLDERA)
+        // =====================================================
+        function changeLanguage(lang, element) {
+            currentLang = lang;
+            
+            if (element) {
+                document.querySelectorAll('.lang-icon-header').forEach(icon => {
+                    icon.classList.remove('active');
+                });
+                element.classList.add('active');
+            }
+
+            document.documentElement.lang = lang;
+
+            if (lang === 'ar') {
+                document.body.classList.add('rtl');
+            } else {
+                document.body.classList.remove('rtl');
+            }
+
+            // Prevedi sve tekstove i placeholder-e
+            document.querySelectorAll('[data-bs][data-en][data-ar]').forEach(element => {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    // Za input i textarea polja - mijenjamo placeholder
+                    if (lang === 'bs') {
+                        element.placeholder = element.getAttribute('data-placeholder-bs') || element.placeholder;
+                    } else if (lang === 'en') {
+                        element.placeholder = element.getAttribute('data-placeholder-en') || element.placeholder;
+                    } else if (lang === 'ar') {
+                        element.placeholder = element.getAttribute('data-placeholder-ar') || element.placeholder;
+                    }
+                } else {
+                    // Za ostale elemente - mijenjamo tekst
+                    if (lang === 'bs') {
+                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
+                            element.innerHTML = element.getAttribute('data-bs');
+                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
+                            const link = element.querySelector('a');
+                            if (link) {
+                                const linkHtml = link.outerHTML;
+                                element.innerHTML = element.getAttribute('data-bs').replace('<a', linkHtml);
+                            } else {
+                                element.innerHTML = element.getAttribute('data-bs');
+                            }
+                        } else {
+                            element.innerText = element.getAttribute('data-bs');
+                        }
+                    } else if (lang === 'en') {
+                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
+                            element.innerHTML = element.getAttribute('data-en');
+                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
+                            const link = element.querySelector('a');
+                            if (link) {
+                                const linkHtml = link.outerHTML;
+                                element.innerHTML = element.getAttribute('data-en').replace('<a', linkHtml);
+                            } else {
+                                element.innerHTML = element.getAttribute('data-en');
+                            }
+                        } else {
+                            element.innerText = element.getAttribute('data-en');
+                        }
+                    } else if (lang === 'ar') {
+                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
+                            element.innerHTML = element.getAttribute('data-ar');
+                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
+                            const link = element.querySelector('a');
+                            if (link) {
+                                const linkHtml = link.outerHTML;
+                                element.innerHTML = element.getAttribute('data-ar').replace('<a', linkHtml);
+                            } else {
+                                element.innerHTML = element.getAttribute('data-ar');
+                            }
+                        } else {
+                            element.innerText = element.getAttribute('data-ar');
+                        }
+                    }
+                }
+            });
+
+            updateHeaderTitle();
+            updatePageIndicator();
+        }
+
+        // =====================================================
+        // FUNKCIJE ZA ŽIVOTOPIS
+        // =====================================================
+        let iskustvoCounter = 1;
+        let obrazovanjeCounter = 1;
+
+        function dodajIskustvo() {
+            iskustvoCounter++;
+            const original = document.querySelector('#iskustvo_1');
+            if (!original) return;
+            
+            const novi = original.cloneNode(true);
+            novi.querySelectorAll('input, textarea').forEach(input => {
+                input.value = '';
+                if (input.name) {
+                    input.name = input.name.replace('_1_', `_${iskustvoCounter}_`);
+                }
+            });
+            
+            novi.id = `iskustvo_${iskustvoCounter}`;
+            
+            const blockTitle = novi.querySelector('.block-title');
+            if (blockTitle) {
+                blockTitle.setAttribute('data-bs', `📁 Radno mjesto ${iskustvoCounter}`);
+                blockTitle.setAttribute('data-en', `📁 Job ${iskustvoCounter}`);
+                blockTitle.setAttribute('data-ar', `📁 الوظيفة ${iskustvoCounter}`);
+                blockTitle.innerText = `📁 Radno mjesto ${iskustvoCounter}`;
+            }
+            
+            const parent = original.parentNode;
+            parent.insertBefore(novi, document.querySelector('.add-btn'));
+            
+            changeLanguage(currentLang, null);
+        }
+
+        function dodajObrazovanje() {
+            obrazovanjeCounter++;
+            const original = document.querySelector('#obrazovanje_1');
+            if (!original) return;
+            
+            const novi = original.cloneNode(true);
+            novi.querySelectorAll('input, textarea').forEach(input => {
+                input.value = '';
+                if (input.name) {
+                    input.name = input.name.replace('_1_', `_${obrazovanjeCounter}_`);
+                }
+            });
+            
+            novi.id = `obrazovanje_${obrazovanjeCounter}`;
+            
+            const blockTitle = novi.querySelector('.block-title');
+            if (blockTitle) {
+                blockTitle.setAttribute('data-bs', `🎓 Obrazovanje ${obrazovanjeCounter}`);
+                blockTitle.setAttribute('data-en', `🎓 Education ${obrazovanjeCounter}`);
+                blockTitle.setAttribute('data-ar', `🎓 التعليم ${obrazovanjeCounter}`);
+                blockTitle.innerText = `🎓 Obrazovanje ${obrazovanjeCounter}`;
+            }
+            
+            const parent = original.parentNode;
+            parent.insertBefore(novi, document.querySelectorAll('.add-btn')[1]);
+            
+            changeLanguage(currentLang, null);
+        }
+
+        // =====================================================
+        // FUNKCIJA ZA SLANJE FORME NA WEB3FORMS
+        // SA SVA TRI NAČINA ZA SUBJECT
+        // =====================================================
+        async function posaljiFormu() {
+            const form = document.getElementById('cvForm');
+            const status = document.getElementById('form-status');
+            const btn = form.querySelector('.submit-btn');
+
+            // Provjeri obavezna polja
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Provjeri checkbox saglasnosti
+            const saglasnost = form.querySelector('input[name="suglasnost"]');
+            if (saglasnost && !saglasnost.checked) {
+                alert(currentLang === 'ar' 
+                    ? 'يجب الموافقة على الشروط' 
+                    : currentLang === 'en' 
+                    ? 'You must agree to the terms' 
+                    : 'Morate se složiti sa uslovima');
+                return;
+            }
+
+            // Prikaži učitavanje
+            btn.disabled = true;
+            btn.textContent = '⏳ Slanje...';
+            status.innerHTML = '';
+
+            try {
+                const formData = new FormData(form);
+                
+                // NAČIN 3: Custom Subject sa korisničkim unosom
+                // Uzimamo ime i prezime i posao za koji se prijavljuje
+                const ime = document.getElementById('ime_prezime')?.value || 'Kandidat';
+                const posao = document.getElementById('prijava_posao')?.value || 'posao';
+                
+                // Kreiramo custom subject
+                const customSubject = `Nova prijava: ${ime} - ${posao}`;
+                
+                // Brišemo stari subject (ako postoji) i dodajemo novi
+                // Napomena: FormData.append dodaje novi unos, ne briše stari.
+                // Web3Forms će uzeti prvi subject koji nađe, zato moramo obrisati stari
+                formData.delete('subject');
+                formData.append('subject', customSubject);
+                
+                // Pošalji formu
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    status.innerHTML = `
+                        <div class="success-message">
+                            ✅ ${currentLang === 'ar' 
+                                ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
+                                : currentLang === 'en' 
+                                ? 'Your application has been sent successfully! We will contact you soon.' 
+                                : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
+                        </div>`;
+                    
+                    // Resetuj formu (kao u instrukcijama za "Go Back" problem)
+                    form.reset();
+                    
+                    // Resetuj foto preview ako postoji
+                    const fotoInput = document.getElementById('foto');
+                    if (fotoInput) {
+                        fotoInput.value = '';
+                        const fotoSpan = document.querySelector('.photo-upload span');
+                        if (fotoSpan) {
+                            fotoSpan.textContent = currentLang === 'bs' ? 'Klikni za upload' 
+                                                   : currentLang === 'en' ? 'Click to upload' 
+                                                   : 'انقر للتحميل';
+                        }
+                    }
+                    
+                    // Dodatno osiguranje da se forma resetira i na nivou DOM-a
+                    setTimeout(() => {
+                        // Ovo rješava problem "stale form data" iz instrukcija
+                        if (form) form.reset();
+                    }, 100);
+                    
+                } else {
+                    throw new Error(result.message || 'Greška');
+                }
+            } catch (error) {
+                console.error('Greška:', error);
+                status.innerHTML = `
+                    <div class="error-message">
+                        ❌ ${currentLang === 'ar' 
+                            ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' 
+                            : currentLang === 'en' 
+                            ? 'An error occurred. Please try again or contact us directly.' 
+                            : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
+                    </div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = currentLang === 'ar' ? '📧 إرسال الطلب' 
+                                : currentLang === 'en' ? '📧 Send Application' 
+                                : '📧 Pošalji prijavu';
+                
+                // Skrolaj do poruke (glatko)
+                status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Automatski sakrij poruku nakon 5 sekundi (kao u instrukcijama)
+                setTimeout(() => {
+                    status.innerHTML = '';
+                }, 5000);
+            }
+        }
+
+        // =====================================================
+        // INICIJALIZACIJA - Dodajemo reset forme pri učitavanju
+        // =====================================================
+        window.addEventListener('load', function() {
+            goToPage('hero');
+            
+            // Resetuj formu pri učitavanju stranice (rješava problem "Go Back")
+            const form = document.getElementById('cvForm');
+            if (form) {
+                form.reset();
+            }
+            
+            // Prikaz imena fajla za fotografiju
+            const fotoInput = document.getElementById('foto');
+            if (fotoInput) {
+                fotoInput.addEventListener('change', function(e) {
+                    const fileName = e.target.files[0]?.name;
+                    const photoLabel = document.querySelector('.photo-upload span');
+                    if (photoLabel && fileName) {
+                        photoLabel.textContent = fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
+                    }
+                });
+            }
+            
+            // Dodatno osiguranje za reset forme (kao u instrukcijama)
+            window.onload = function() {
+                if (form) form.reset();
+            };
+        });
+    </script>
+</body>
+</html>
