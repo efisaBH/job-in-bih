@@ -1705,15 +1705,8 @@
 
                 <form id="cvForm" enctype="multipart/form-data">
                     <!-- Web3Forms hidden polja -->
-                <input type="hidden" name="subject" value="New Submission from Web3Forms">
-                    <input type="text" name="subject" />
-                    
-                    <form action="https://api.web3forms.com/submit" method="POST">
-                  <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
-                  <input type="text" name="name" required>
-                  <input type="email" name="email" required>
-                  <textarea name="message" required></textarea>
-                  <button type="submit">Submit Form</button>
+                     <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
+                     <input type="hidden" name="subject" id="form-subject" value="Nova prijava za posao">
                 </form>
                 
                     
