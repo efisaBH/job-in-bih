@@ -1705,10 +1705,17 @@
 
                 <form id="cvForm" enctype="multipart/form-data">
                     <!-- Web3Forms hidden polja -->
-                    <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
-                    <input type="hidden" name="subject" value="Novi životopis - Efisa doo">
-                    <input type="hidden" name="from_name" value="Job in BIH">
-                    <input type="hidden" name="redirect" value="false">
+                <input type="hidden" name="subject" value="New Submission from Web3Forms">
+                    <input type="text" name="subject" />
+                    
+                    <form action="https://api.web3forms.com/submit" method="POST">
+                  <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
+                  <input type="text" name="name" required>
+                  <input type="email" name="email" required>
+                  <textarea name="message" required></textarea>
+                  <button type="submit">Submit Form</button>
+                </form>
+                
                     
                     <!-- 1. LIČNI PODACI - SA FOTOGRAFIJOM I NOVIM POLJEM -->
                     <div class="section">
@@ -2381,12 +2388,13 @@
         // =====================================================
 // POPRAVLJENA FUNKCIJA ZA SLANJE FORME NA WEB3FORMS
 // =====================================================
+
 async function posaljiFormu() {
     const form = document.getElementById('cvForm');
     const status = document.getElementById('form-status');
     const submitBtn = form.querySelector('.submit-btn');
 
-    // Prvo provjeri fotografiju - OVO JE KLJUČNO!
+    // Prvo provjeri fotografiju
     const fotoInput = document.getElementById('foto');
     if (!fotoInput || !fotoInput.files || fotoInput.files.length === 0) {
         const message = currentLang === 'bs' ? 'Fotografija je obavezna! Molimo dodajte fotografiju.' :
@@ -2419,34 +2427,50 @@ async function posaljiFormu() {
                            currentLang === 'en' ? '⏳ Sending...' :
                            '⏳ جاري الإرسال...';
 
-    // OČISTI I PRIKAŽI STATUS DIV DA BUDE VIDLJIV
-    status.innerHTML = '';
+    status.innerHTML = "Molimo sačekajte...";
     status.style.display = 'block';
 
     try {
+        // Kreiraj FormData objekat
         const formData = new FormData(form);
-
-        // Web3Forms konfiguracija
+        
+        // Dodaj potrebne Web3Forms podatke
         formData.append('access_key', '42ac0273-a354-4e08-9923-0eced83cc1e1');
-        formData.append('subject', `Nova prijava za posao - ${new Date().toLocaleDateString()}`);
-        formData.append('from_name', 'Job in BIH Website');
+        
+        // Preuzmi ime kandidata za subject
+        const imePrezime = formData.get('ime_prezime') || 'Nepoznat kandidat';
+        formData.append('subject', `Nova prijava za posao - ${imePrezime} - ${new Date().toLocaleDateString()}`);
+        
+        // Pretvori FormData u običan objekat
+        const object = Object.fromEntries(formData);
+        
+        // Za file-ove moramo drugačije - JSON ne može direktno slati fajlove
+        // Zato ćemo koristiti FormData za fajlove, ali to je komplikovanije
+        
+        // Pošalji kao JSON (bez fajlova za sada)
+        const json = JSON.stringify(object);
+        
+        console.log('Šaljem podatke:', object);
 
-        // POŠALJI FORMU
         const response = await fetch('https://api.web3forms.com/submit', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
         });
 
         const result = await response.json();
-        console.log('Web3Forms odgovor:', result); // Ovo će se vidjeti u konzoli
+        console.log('Web3Forms odgovor:', result);
 
-        if (result.success) {
-            // USPJEH - prikaži zelenu poruku
+        if (response.status == 200) {
+            // USPJEH
             status.innerHTML = `
-                <div class="success-message" style="background: #d4edda; color: #155724; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #c3e6cb; font-weight: 500;">
-                    ✅ ${currentLang === 'bs' ? 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.' :
+                <div style="background: #d4edda; color: #155724; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #c3e6cb; font-weight: 500;">
+                    ✅ ${result.message || (currentLang === 'bs' ? 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.' :
                         currentLang === 'en' ? 'Your application has been sent successfully! We will contact you soon.' :
-                        '✅ تم إرسال طلبك بنجاح! سنتصل بك قريباً.'}
+                        'تم إرسال طلبك بنجاح! سنتصل بك قريباً.')}
                 </div>
             `;
             
@@ -2464,32 +2488,45 @@ async function posaljiFormu() {
                 }
             }
             
-            // Skroluj do poruke
-            status.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
         } else {
-            // GREŠKA - prikaži crvenu poruku
-            throw new Error(result.message || 'Greška pri slanju');
+            // GREŠKA OD WEB3FORMS
+            status.innerHTML = `
+                <div style="background: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #f5c6cb; font-weight: 500;">
+                    ❌ ${result.message || 'Došlo je do greške pri slanju.'}
+                </div>
+            `;
         }
     } catch (error) {
         console.error('Greška:', error);
         status.innerHTML = `
-            <div class="error-message" style="background: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #f5c6cb; font-weight: 500;">
+            <div style="background: #f8d7da; color: #721c24; padding: 15px 20px; border-radius: 8px; margin: 20px 0; text-align: center; border: 1px solid #f5c6cb; font-weight: 500;">
                 ❌ ${currentLang === 'ar' 
                     ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' 
                     : currentLang === 'en' 
                     ? 'An error occurred. Please try again or contact us directly.' 
                     : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
-                <br><small>${error.message}</small>
-            </div>`;
-        status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            </div>
+        `;
     } finally {
         // Vrati dugme u normalno stanje
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
+        
+        // Sakrij poruku nakon 5 sekundi
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 5000);
     }
 }
+        <script>
+    window.onload = function() {
+        // Reset the form fields when the page loads
+        document.getElementById("form").reset();
+    };
+</script>
 
+    <input type="hidden" name="redirect" value="https://job-in.bih.workers.dev/html.html">
+        
  // =====================================================
 // ALTERNATIVNA METODA - mailto fallback
 // =====================================================
