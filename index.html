@@ -2428,12 +2428,30 @@ form.addEventListener('submit', async (e) => {
                                    : currentLang === 'en' ? 'Click to upload' 
                                    : 'انقر للتحميل';
         }
+        
     }
-} else {
+           catch(error) {
+    console.error(error);
+} 
+       else {
     throw new Error(result.message || 'Greška pri slanju');
 }
 });
-        
+        function navigatePage(pageId) {
+    // Sakrij sve sekcije
+    document.querySelectorAll('.page, .page-section, [data-page]').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Prikaži odabranu sekciju
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Opciono: skrolaj na vrh
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
         // =====================================================
         // INICIJALIZACIJA
         // =====================================================
