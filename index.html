@@ -90,6 +90,7 @@
            PRINT STILOVI - SAMO TRENUTNA STRANICA
            ===================================================== */
         @media print {
+            /* Sakrij header i footer */
             .site-header,
             .footer-nav,
             .language-bar,
@@ -97,6 +98,7 @@
                 display: none !important;
             }
             
+            /* Prikaži samo aktivnu stranicu */
             .page {
                 display: block !important;
                 padding-top: 0 !important;
@@ -104,10 +106,12 @@
                 min-height: auto !important;
             }
             
+            /* Sakrij sve neaktivne stranice */
             .page:not(.active-page) {
                 display: none !important;
             }
             
+            /* Osiguraj da se forma printa sa popunjenim podacima */
             input, textarea, select {
                 border: 1px solid #ccc !important;
                 background: white !important;
@@ -116,14 +120,17 @@
                 print-color-adjust: exact;
             }
             
+            /* Zadrži popunjene vrijednosti */
             .form-row {
                 break-inside: avoid;
             }
             
+            /* Hero slika neka se ne printa */
             .hero-image-side {
                 display: none !important;
             }
             
+            /* Prilagodi boje za print */
             .hero-text-side {
                 background: #003366 !important;
                 -webkit-print-color-adjust: exact;
@@ -138,6 +145,7 @@
                 color: #4FC3F7 !important;
             }
             
+            /* Zastava za print */
             .flag-bg,
             .onama-background-flag {
                 opacity: 0.1 !important;
@@ -174,13 +182,13 @@
             flex-shrink: 0;
         }
         .logo-slika {
-            height: 60px;
-            width: auto;
-            max-width: 200px;
-            object-fit: contain;
-            border-radius: 4px;
-            transition: opacity var(--transition-base);
-        }
+    height: 60px;           /* Visina loga */
+    width: auto;            /* Širina se automatski prilagođava */
+    max-width: 200px;       /* Maksimalna širina */
+    object-fit: contain;    /* Zadržava proporcije */
+    border-radius: 4px;     /* Blago zaobljeni uglovi (opciono) */
+    transition: opacity var(--transition-base);
+}
 
         .logo-text {
             font-family: var(--font-display);
@@ -209,6 +217,7 @@
             white-space: nowrap;
         }
 
+        /* JEZICI U PRVOM REDU */
         .header-lang-icons {
             display: flex;
             gap: 10px;
@@ -245,6 +254,7 @@
             border-color: var(--accent-gold);
         }
 
+        /* NAVIGACIJA – IKONE DESNO */
         .main-nav {
             display: flex;
             gap: clamp(10px, 2vw, 20px);
@@ -288,88 +298,110 @@
             color: var(--text-inverse);
         }
 
+        /* =====================================================
+           SMANJENJE IKONICA ZA MOBITEL
+           ===================================================== */
         @media (max-width: 768px) {
-            .site-header {
-                padding: 8px 12px;
-                gap: 8px;
-                flex-wrap: nowrap;
-                overflow: hidden;
-            }
-            .logo-container {
-                flex-shrink: 1;
-                min-width: 0;
-                overflow: hidden;
-            }
-            .logo-text {
-                font-size: 1.1rem;
-                padding: 4px 8px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .logo-slika {
-                height: 40px;
-            }
-            .page-indicator {
-                display: none;
-            }
-            .lang-icon-header {
-                width: 36px;
-                height: 28px;
-                font-size: 0.8rem;
-                border-width: 1px;
-            }
-            .nav-icon {
-                width: 32px;
-                height: 32px;
-                font-size: 0.9rem;
-            }
-            .main-nav {
-                gap: 5px;
-                flex-wrap: nowrap;
-            }
-        }
+    .site-header {
+        padding: 8px 12px;
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
 
-        @media (max-width: 480px) {
-            .site-header {
-                padding: 5px 8px;
-                gap: 4px;
-            }
-            .logo-text {
-                font-size: 0.95rem;
-                padding: 3px 6px;
-            }
-            .logo-slika {
-                height: 30px;
-            }
-            .lang-icon-header {
-                width: 30px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-            .nav-icon {
-                width: 28px;
-                height: 28px;
-                font-size: 0.8rem;
-            }
-        }
+    .logo-container {
+        flex-shrink: 1;
+        min-width: 0;
+        overflow: hidden;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
+        padding: 4px 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+            /* Manji logo na mobitelima */
+@media (max-width: 768px) {
+    .logo-slika {
+        height: 40px;
+    }
+}
+            @media (max-width: 480px) {
+    .logo-slika {
+        height: 30px;
+    }
+}
+    
+    .page-indicator {
+        display: none;
+    }
+    
+    .lang-icon-header {
+        width: 36px;
+        height: 28px;
+        font-size: 0.8rem;
+        border-width: 1px;
+    }
+    
+    .nav-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+    
+    .main-nav {
+        gap: 5px;
+        flex-wrap: nowrap;
+    }
+}
 
-        @media (max-width: 360px) {
-            .logo-text {
-                font-size: 0.85rem;
-            }
-            .lang-icon-header {
-                width: 26px;
-                height: 22px;
-                font-size: 0.6rem;
-            }
-            .nav-icon {
-                width: 24px;
-                height: 24px;
-                font-size: 0.7rem;
-            }
-        }
+@media (max-width: 480px) {
+    .site-header {
+        padding: 5px 8px;
+        gap: 4px;
+    }
+    
+    .logo-text {
+        font-size: 0.95rem;
+        padding: 3px 6px;
+    }
+    
+    .lang-icon-header {
+        width: 30px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+    
+    .nav-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+}
 
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 0.85rem;
+    }
+    
+    .lang-icon-header {
+        width: 26px;
+        height: 22px;
+        font-size: 0.6rem;
+    }
+    
+    .nav-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
+    }
+}
+
+        /* =====================================================
+           STRANICE
+           ===================================================== */
         .page {
             display: none;
             min-height: 100vh;
@@ -382,49 +414,53 @@
             display: block;
         }
 
+        /* =====================================================
+           STRANICA 0: HERO (POČETNA)
+           ===================================================== */
         .hero-container {
-            min-height: calc(100vh - var(--header-h) - var(--footer-h));
-            display: flex;
-            position: relative;
-        }
+    min-height: calc(100vh - var(--header-h) - var(--footer-h));
+    display: flex;
+    position: relative;
+}
 
-        .hero-text-side {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            clip-path: none;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            padding-left: 60px;
-        }
+.hero-text-side {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    clip-path: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 60px;
+}
 
-        .hero-image-side {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('pocetna.jpeg');
-            background-size: cover;
-            background-position-x: center;
-            background-position-y: 20%;
-            z-index: 1;
-        }
+.hero-image-side {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('pocetna.jpeg');
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: 20%;
+    z-index: 1;
+}
 
-        .hero-text-content {
-            color: white;
-            max-width: 600px;
-            padding: 40px;
-            background: rgba(0, 51, 102, 0.75);
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
+.hero-text-content {
+    color: white;
+    max-width: 600px;
+    padding: 40px;
+    background: rgba(0, 51, 102, 0.75);
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
 
         .hero-main-headline {
             font-size: 2.8rem;
@@ -446,6 +482,9 @@
             display: block;
         }
 
+        /* =====================================================
+           STRANICA 1: O NAMA
+           ===================================================== */
         .onama-background-flag {
             position: fixed;
             top: 0;
@@ -495,6 +534,7 @@
             letter-spacing: 0.3px;
         }
 
+
         .onama-text-container p:last-child {
             font-weight: 800;
             font-size: clamp(1.2rem, 2.5vw, 1.5rem);
@@ -504,6 +544,9 @@
             border-top: 2px solid #FFCC00;
         }
 
+        /* =====================================================
+           STRANICA 2: POSTUPAK, UVJETI I ZAKONSKI OKVIR
+           ===================================================== */
         .procedure-section {
             position: relative;
             padding: 20px clamp(20px, 5vw, 30px) 40px;
@@ -625,6 +668,7 @@
             margin-top: 40px;
         }
 
+        /* PDF dugme za stranicu 2/5 - na DNU */
         .procedure-footer-buttons {
             display: flex;
             justify-content: center;
@@ -654,6 +698,9 @@
             transform: translateY(-2px);
         }
 
+        /* =====================================================
+           STRANICA 3: APLIKACIJA - ŽIVOTOPIS (SA PREVODOM PLACEHOLDERA)
+           ===================================================== */
         .cv-container {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -680,6 +727,7 @@
             letter-spacing: 0.5px;
         }
 
+        /* Fotografija i Lični podaci u istom redu */
         .personal-data-row {
             display: flex;
             gap: 30px;
@@ -732,6 +780,12 @@
             color: var(--accent-primary);
             margin-top: 10px;
             text-align: center;
+        }
+
+        .photo-label.required::after {
+            content: " *";
+            color: #c0392b;
+            font-weight: bold;
         }
 
         .data-column {
@@ -951,6 +1005,9 @@
             font-weight: 500;
         }
 
+        /* =====================================================
+           STRANICA 4: USTUPANJE RADNIKA (U PRIPREMI)
+           ===================================================== */
         .warning-container {
             min-height: calc(100vh - var(--header-h) - var(--footer-h));
             display: flex;
@@ -1005,6 +1062,9 @@
             font-style: italic;
         }
 
+        /* =====================================================
+           STRANICA 5: KONTAKT
+           ===================================================== */
         .contact-container {
             min-height: calc(100vh - var(--header-h) - var(--footer-h));
             display: flex;
@@ -1123,6 +1183,9 @@
             color: var(--color-blue-light);
         }
 
+        /* =====================================================
+           FOOTER NAVIGACIJA
+           ===================================================== */
         .footer-nav {
             position: fixed;
             bottom: 0;
@@ -1184,6 +1247,9 @@
             font-size: 1rem;
         }
 
+        /* =====================================================
+           RTL ZA ARAPSKI
+           ===================================================== */
         .rtl {
             direction: rtl;
             text-align: right;
@@ -1221,53 +1287,69 @@
             flex-direction: row-reverse;
         }
 
+        /* =====================================================
+           RESPONZIVNOST - OPŠTA
+           ===================================================== */
         @media (max-width: 768px) {
             :root {
                 --header-h: auto;
                 --footer-h: 100px;
             }
+
             .site-header {
                 padding: 10px 15px;
             }
+
             .hero-container {
                 flex-direction: column;
             }
+            
             .hero-text-side, .hero-image-side {
                 width: 100%;
                 height: 50vh;
             }
+            
             .hero-text-side {
                 clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
                 padding: 30px;
                 text-align: center;
             }
+            
             .hero-text-content {
                 padding-right: 0;
             }
+            
             .hero-main-headline {
                 font-size: 2.2rem;
             }
+
             .cv-container {
                 padding: 20px 15px;
             }
+
             .form-label {
                 flex: 0 0 100%;
                 margin-bottom: 5px;
             }
+
             .personal-data-row {
                 flex-direction: column;
                 align-items: center;
             }
+
             .photo-column {
                 flex: 0 0 auto;
                 margin-bottom: 20px;
             }
+
             .warning-card {
                 padding: 40px 20px;
             }
+
             .warning-sign {
                 font-size: 6rem;
             }
+
             .contact-card {
                 padding: 30px 20px;
             }
@@ -1277,35 +1359,43 @@
             :root {
                 --footer-h: 120px;
             }
+
             .footer-nav {
                 flex-direction: column;
                 height: auto;
                 padding: 15px;
                 gap: 15px;
             }
+
             .nav-btn {
                 width: 100%;
                 max-width: 280px;
                 justify-content: center;
             }
+
             .hero-main-headline {
                 font-size: 1.8rem;
             }
+
             .warning-sign {
                 font-size: 5rem;
             }
+
             .warning-text {
                 font-size: 2rem;
                 padding: 15px 0;
             }
+
             .agent-contact {
                 flex-direction: column;
                 gap: 10px;
             }
+
             .footer-buttons {
                 flex-direction: column;
                 align-items: center;
             }
+
             .print-btn, .submit-btn, .procedure-pdf-btn {
                 width: 100%;
                 max-width: 280px;
@@ -1322,6 +1412,7 @@
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
             }
+            
             .warning-sign {
                 animation: none;
             }
@@ -1329,12 +1420,14 @@
     </style>
 </head>
 <body>
+    <!-- HEADER - PRVI RED SA LOGOM, JEZICIMA I IKONAMA -->
     <header class="site-header">
         <div class="logo-container" onclick="goToPage('hero')">
             <img src="logo-jobs.jpeg" alt="Job in BIH logo" class="logo-slika">
             <span class="page-indicator" id="current-page-indicator">- Početna</span>
         </div>
         
+        <!-- JEZICI U PRVOM REDU - BS | EN | AR -->
         <div class="header-lang-icons">
             <button class="lang-icon-header active" onclick="changeLanguage('bs', this)">BS</button>
             <button class="lang-icon-header" onclick="changeLanguage('en', this)">EN</button>
@@ -1360,9 +1453,14 @@
         </nav>
     </header>
 
+    <!-- ===================================================== -->
+    <!-- SVIH 6 STRANICA U JEDNOM -->
+    <!-- ===================================================== -->
+
     <!-- STRANICA 0: HERO (POČETNA) -->
     <section id="hero" class="page active-page">
         <div class="hero-container">
+            <!-- LIJEVA STRANA - TEKST -->
             <div class="hero-text-side">
                 <div class="hero-text-content">
                     <h1 class="hero-main-headline">
@@ -1375,6 +1473,8 @@
                     </h1>
                 </div>
             </div>
+            
+            <!-- DESNA STRANA - SLIKA -->
             <div class="hero-image-side"></div>
         </div>
     </section>
@@ -1382,6 +1482,7 @@
     <!-- STRANICA 1: O NAMA -->
     <section id="onama" class="page">
         <div class="onama-background-flag"></div>
+        
         <div class="onama-content">
             <h1 class="section-title" data-bs="O NAMA" data-en="ABOUT US" data-ar="من نحن">O NAMA</h1>
             <div class="onama-text-container">
@@ -1390,21 +1491,25 @@
                    data-ar="شركة Efisa d.o.o. هي وكالة متخصصة في التوظيف، تأسست بهدف توفير الدعم الموثوق والمهني للعمال الأجانب في العثور على عمل في البوسنة والهرسك.">
                     Efisa d.o.o. je specijalizirana agencija za posredovanje u zapošljavanju, osnovana s ciljem da stranim radnicima pruži pouzdanu i stručnu podršku u pronalasku posla u Bosni i Hercegovini.
                 </p>
+                
                 <p data-bs="Znamo da dolazak u novu zemlju i snalaženje na nepoznatom tržištu rada može biti izazovno. Zbog toga svakom kandidatu pristupamo individualno, uz puno razumijevanje njegovih kvalifikacija, radnog iskustva i ličnih očekivanja – bez obzira na to odakle dolazi."
                    data-en="We understand that arriving in a new country and navigating an unfamiliar labor market can be challenging. That's why we approach each candidate individually, with full understanding of their qualifications, work experience, and personal expectations – regardless of where they come from."
                    data-ar="نحن ندرك أن الوصول إلى بلد جديد والتكيف مع سوق عمل غير مألوف يمكن أن يكون أمراً صعباً. لذلك نتعامل مع كل مرشح بشكل فردي، مع الفهم الكامل لمؤهلاته وخبراته العملية وتوقعاته الشخصية - بغض النظر عن مكان قدومه.">
                     Znamo da dolazak u novu zemlju i snalaženje na nepoznatom tržištu rada može biti izazovno. Zbog toga svakom kandidatu pristupamo individualno, uz puno razumijevanje njegovih kvalifikacija, radnog iskustva i ličnih očekivanja – bez obzira na to odakle dolazi.
                 </p>
+                
                 <p data-bs="Naš tim čine iskusni savjetnici koji vas vode kroz cijeli proces – od prvog razgovora i procjene vaših kompetencija, kroz savjetovanje o uslovima rada i života u BiH, sve do posredovanja s poslodavcem i finalizacije ugovora o radu."
                    data-en="Our team consists of experienced advisors who guide you through the entire process – from the initial interview and assessment of your competencies, through counseling on working and living conditions in BiH, to mediation with employers and finalization of employment contracts."
                    data-ar="يتكون فريقنا من مستشارين ذوي خبرة يرافقونك خلال العملية بأكملها - من المقابلة الأولى وتقييم كفاءاتك، من خلال الاستشارة حول ظروف العمل والمعيشة في البوسنة والهرسك، وصولاً إلى الوساطة مع أصحاب العمل وإتمام عقود العمل.">
                     Naš tim čine iskusni savjetnici koji vas vode kroz cijeli proces – od prvog razgovora i procjene vaših kompetencija, kroz savjetovanje o uslovima rada i života u BiH, sve do posredovanja s poslodavcem i finalizacije ugovora o radu.
                 </p>
+                
                 <p data-bs="Sarađujemo s provjerenim poslodavcima u Bosni i Hercegovini koji su otvoreni za zapošljavanje stranih radnika i koji cijene različitost, znanje i radnu posvećenost. Cilj naše agencije je da vaš dolazak u BiH bude što jednostavniji i sigurniji – a vaše zaposlenje dugoročno i stabilno."
                    data-en="We cooperate with verified employers in Bosnia and Herzegovina who are open to hiring foreign workers and who value diversity, knowledge, and work dedication. Our agency's goal is to make your arrival in BiH as simple and safe as possible – and your employment long-term and stable."
                    data-ar="نتعاون مع أصحاب عمل موثوقين في البوسنة والهرسك ممن هم منفتحون لتوظيف العمال الأجانب ويقدرون التنوع والمعرفة والتفاني في العمل. هدف وكالتنا هو جعل وصولك إلى البوسنة والهرسك بسيطاً وآمناً قدر الإمكان - وتوظيفك طويل الأمد ومستقراً.">
                     Sarađujemo s provjerenim poslodavcima u Bosni i Hercegovini koji su otvoreni za zapošljavanje stranih radnika i koji cijene različitost, znanje i radnu posvećenost. Cilj naše agencije je da vaš dolazak u BiH bude što jednostavniji i sigurniji – a vaše zaposlenje dugoročno i stabilno.
                 </p>
+                
                 <p data-bs="Job in BIH – vaš pouzdani partner za zaposlenje u Bosni i Hercegovini."
                    data-en="Job in BIH – your reliable partner for employment in Bosnia and Herzegovina."
                    data-ar="Job in BIH - شريكك الموثوق للتوظيف في البوسنة والهرسك.">
@@ -1414,10 +1519,11 @@
         </div>
     </section>
 
-    <!-- STRANICA 2: POSTUPAK, UVJETI I ZAKONSKI OKVIR -->
+    <!-- STRANICA 2: POSTUPAK, UVJETI I ZAKONSKI OKVIR (SA PDF DUGMETOM NA DNU) -->
     <section id="postupak" class="page">
         <div class="procedure-section">
             <div class="flag-bg"></div>
+            
             <div class="section-content">
                 <h1 class="section-title" data-bs="POSTUPAK, UVJETI I ZAKONSKI OKVIR ZA RADNU VIZU U BIH"
                                    data-en="PROCEDURE, CONDITIONS AND LEGAL FRAMEWORK FOR WORK VISA IN BIH"
@@ -1575,6 +1681,7 @@
                     Job in BIH – vaš pouzdani partner za zaposlenje u Bosni i Hercegovini.
                 </div>
 
+                <!-- PDF DUGME NA DNU STRANICE 2/5 -->
                 <div class="procedure-footer-buttons no-print">
                     <button type="button" class="procedure-pdf-btn" onclick="window.print()" 
                             data-bs="🖨️ ispiši / spremi kao PDF" 
@@ -1587,7 +1694,7 @@
         </div>
     </section>
 
-    <!-- STRANICA 3: APLIKACIJA - ŽIVOTOPIS -->
+    <!-- STRANICA 3: APLIKACIJA - ŽIVOTOPIS (SA PREVODOM PLACEHOLDERA) -->
     <section id="aplikacija" class="page">
         <div class="main-content" style="max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px;">
             <div class="cv-container">
@@ -1597,24 +1704,31 @@
                 </div>
 
                 <form id="cvForm" enctype="multipart/form-data">
+                    <!-- Web3Forms hidden polja -->
                     <input type="hidden" name="access_key" value="42ac0273-a354-4e08-9923-0eced83cc1e1">
                     <input type="hidden" name="subject" value="Novi životopis - Efisa doo">
                     <input type="hidden" name="from_name" value="Job in BIH">
+                    <input type="hidden" name="redirect" value="false">
                     
+                    <!-- 1. LIČNI PODACI - SA FOTOGRAFIJOM I NOVIM POLJEM -->
                     <div class="section">
                         <div class="section-title" data-bs="1. Lični podaci" data-en="1. Personal Information" data-ar="١. المعلومات الشخصية">1. Lični podaci</div>
                         
+                        <!-- RED ZA FOTOGRAFIJU I PODATKE -->
                         <div class="personal-data-row">
+                            <!-- Kolona za fotografiju (OBAVEZNA) -->
                             <div class="photo-column">
                                 <div class="photo-upload" onclick="document.getElementById('foto').click();">
                                     <i class="fas fa-camera"></i>
                                     <span data-bs="Klikni za upload" data-en="Click to upload" data-ar="انقر للتحميل">Klikni za upload</span>
-                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" style="display: none;">
+                                    <input type="file" id="foto" name="fotografija" accept=".jpg,.jpeg" required style="display: none;">
                                 </div>
-                                <div class="photo-label" data-bs="Fotografija" data-en="Photo" data-ar="صورة شخصية">Fotografija</div>
+                                <div class="photo-label required" data-bs="Fotografija" data-en="Photo" data-ar="صورة شخصية">Fotografija</div>
                             </div>
                             
+                            <!-- Kolona za podatke -->
                             <div class="data-column">
+                                <!-- NOVO POLJE: Prijava posao (obavezno) -->
                                 <div class="form-row">
                                     <div class="form-label required" data-bs="Prijava posao" data-en="Job Application" data-ar="تقديم الوظيفة">Prijava posao</div>
                                     <div class="form-field">
@@ -1708,6 +1822,7 @@
                         </div>
                     </div>
 
+                    <!-- 2. RADNO ISKUSTVO -->
                     <div class="section">
                         <div class="section-title" data-bs="2. Radno iskustvo" data-en="2. Work Experience" data-ar="٢. الخبرة العملية">2. Radno iskustvo</div>
 
@@ -1767,6 +1882,7 @@
                         <button class="add-btn" type="button" onclick="dodajIskustvo()" data-bs="+ dodaj još jedno radno iskustvo" data-en="+ add another work experience" data-ar="+ أضف خبرة عمل أخرى">+ dodaj još jedno radno iskustvo</button>
                     </div>
 
+                    <!-- 3. OBRAZOVANJE -->
                     <div class="section">
                         <div class="section-title" data-bs="3. Obrazovanje" data-en="3. Education" data-ar="٣. التعليم">3. Obrazovanje</div>
 
@@ -1814,6 +1930,7 @@
                         <button class="add-btn" type="button" onclick="dodajObrazovanje()" data-bs="+ dodaj još jedno obrazovanje" data-en="+ add another education" data-ar="+ أضف تعليماً آخر">+ dodaj još jedno obrazovanje</button>
                     </div>
 
+                    <!-- 4. VJEŠTINE I ZNANJA (SVA POLJA OPCIONALNA) -->
                     <div class="section">
                         <div class="section-title" data-bs="4. Vještine i znanja" data-en="4. Skills" data-ar="٤. المهارات">4. Vještine i znanja</div>
 
@@ -1866,6 +1983,7 @@
                         </div>
                     </div>
 
+                    <!-- 5. UPLOAD DOKUMENATA -->
                     <div class="section">
                         <div class="section-title" data-bs="5. Prilozi (opcionalno)" data-en="5. Attachments (optional)" data-ar="٥. المرفقات (اختياري)">5. Prilozi (opcionalno)</div>
                         
@@ -1884,6 +2002,7 @@
                         </div>
                     </div>
 
+                    <!-- 6. DODATNE INFORMACIJE -->
                     <div class="section">
                         <div class="section-title" data-bs="6. Dodatne informacije (opcija)" data-en="6. Additional Information (optional)" data-ar="٦. معلومات إضافية (اختياري)">6. Dodatne informacije (opcija)</div>
                         <div class="form-row">
@@ -1951,11 +2070,13 @@
                 <div class="warning-sign">
                     <i class="fas fa-triangle-exclamation"></i>
                 </div>
+                
                 <div class="warning-text" data-bs="OVA STRANICA JE U PRIPREMI" 
                                            data-en="THIS PAGE IS UNDER CONSTRUCTION" 
                                            data-ar="هذه الصفحة قيد الإعداد">
                     OVA STRANICA JE U PRIPREMI
                 </div>
+                
                 <div class="warning-subtext no-print" data-bs="Molimo posjetite nas kasnije" 
                                                         data-en="Please visit us later" 
                                                         data-ar="يرجى زيارة موقعنا لاحقاً">
@@ -1970,17 +2091,20 @@
         <div class="contact-container">
             <div class="contact-card">
                 <div class="company-name" data-bs="Efisa doo" data-en="Efisa doo" data-ar="إفيسا ذ.م.م">Efisa doo</div>
+                
                 <div class="company-address" data-bs="23. maj br 3<br>75260 Kalesija, Bosna i Hercegovina" 
                                               data-en="23. maj no. 3<br>75260 Kalesija, Bosnia and Herzegovina" 
                                               data-ar="٢٣ مايو رقم ٣<br>٧٥٢٦٠ كاليسيا، البوسنة والهرسك">
                     <p>23. maj br 3</p>
                     <p>75260 Kalesija, Bosna i Hercegovina</p>
                 </div>
+
                 <div class="company-email">
                     <a href="mailto:efisa.job@gmail.com" data-bs="efisa.job@gmail.com" 
                                                           data-en="efisa.job@gmail.com" 
                                                           data-ar="efisa.job@gmail.com">efisa.job@gmail.com</a>
                 </div>
+
                 <div class="contact-agents">
                     <div class="agent-card arabic-agent">
                         <div class="agent-language" data-bs="AGENT ZA ARAPSKI JEZIK" 
@@ -1998,6 +2122,7 @@
                             <span class="agent-phone">+387 62 333 425</span>
                         </div>
                     </div>
+
                     <div class="agent-card">
                         <div class="agent-language" data-bs="AGENT ZA ENGLESKI I BOSANSKI JEZIK" 
                                                     data-en="ENGLISH & BOSNIAN SPEAKING AGENT" 
@@ -2019,6 +2144,7 @@
         </div>
     </section>
 
+    <!-- FOOTER NAVIGACIJA -->
     <footer class="footer-nav">
         <button class="nav-btn" id="backBtn" onclick="navigatePage('prev')">
             <i class="fas fa-arrow-left"></i> <span data-bs="Nazad" data-en="Back" data-ar="رجوع">Nazad</span>
@@ -2030,6 +2156,9 @@
     </footer>
 
     <script>
+        // =====================================================
+        // GLOBALNE VARIJABLE
+        // =====================================================
         const pages = ['hero', 'onama', 'postupak', 'aplikacija', 'ustupanje', 'kontakt'];
         const pageNames = {
             'hero': { bs: 'Početna', en: 'Home', ar: 'الصفحة الرئيسية' },
@@ -2042,8 +2171,14 @@
         let currentPageIndex = 0;
         let currentLang = 'bs';
 
+        // =====================================================
+        // NAVIGACIJA IZMEĐU STRANICA
+        // =====================================================
         function goToPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active-page');
@@ -2055,16 +2190,24 @@
         }
 
         function navigatePage(direction) {
-            if (direction === 'prev' && currentPageIndex > 0) currentPageIndex--;
-            else if (direction === 'next' && currentPageIndex < pages.length - 1) currentPageIndex++;
-            else return;
+            if (direction === 'prev' && currentPageIndex > 0) {
+                currentPageIndex--;
+            } else if (direction === 'next' && currentPageIndex < pages.length - 1) {
+                currentPageIndex++;
+            } else {
+                return;
+            }
+            
             goToPage(pages[currentPageIndex]);
         }
 
         function updatePageIndicator() {
             const indicator = document.getElementById('page-counter');
-            if (currentPageIndex === 0) indicator.textContent = currentLang === 'bs' ? 'Početna' : currentLang === 'en' ? 'Home' : 'الصفحة الرئيسية';
-            else indicator.textContent = `Stranica ${currentPageIndex}/5`;
+            if (currentPageIndex === 0) {
+                indicator.textContent = currentLang === 'bs' ? 'Početna' : currentLang === 'en' ? 'Home' : 'الصفحة الرئيسية';
+            } else {
+                indicator.textContent = `Stranica ${currentPageIndex}/5`;
+            }
         }
 
         function updateActiveNavIcon(pageId) {
@@ -2075,57 +2218,105 @@
                     (pageId === 'postupak' && index === 1) ||
                     (pageId === 'aplikacija' && index === 3) ||
                     (pageId === 'ustupanje' && index === 2) ||
-                    (pageId === 'kontakt' && index === 4)) icon.classList.add('active');
+                    (pageId === 'kontakt' && index === 4)) {
+                    icon.classList.add('active');
+                }
             });
         }
 
         function updateHeaderTitle() {
             const indicator = document.getElementById('current-page-indicator');
-            indicator.textContent = `- ${pageNames[pages[currentPageIndex]][currentLang]}`;
+            const pageId = pages[currentPageIndex];
+            indicator.textContent = `- ${pageNames[pageId][currentLang]}`;
         }
 
+        // =====================================================
+        // FUNKCIJA ZA PROMJENU JEZIKA (SA PREVODOM PLACEHOLDERA)
+        // =====================================================
         function changeLanguage(lang, element) {
             currentLang = lang;
-            document.querySelectorAll('.lang-icon-header').forEach(icon => icon.classList.remove('active'));
-            if (element) element.classList.add('active');
-            document.documentElement.lang = lang;
-            if (lang === 'ar') document.body.classList.add('rtl');
-            else document.body.classList.remove('rtl');
+            
+            if (element) {
+                document.querySelectorAll('.lang-icon-header').forEach(icon => {
+                    icon.classList.remove('active');
+                });
+                element.classList.add('active');
+            }
 
-            document.querySelectorAll('[data-bs][data-en][data-ar]').forEach(el => {
-                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                    if (lang === 'bs') el.placeholder = el.getAttribute('data-placeholder-bs') || el.placeholder;
-                    else if (lang === 'en') el.placeholder = el.getAttribute('data-placeholder-en') || el.placeholder;
-                    else if (lang === 'ar') el.placeholder = el.getAttribute('data-placeholder-ar') || el.placeholder;
-                } else {
+            document.documentElement.lang = lang;
+
+            if (lang === 'ar') {
+                document.body.classList.add('rtl');
+            } else {
+                document.body.classList.remove('rtl');
+            }
+
+            // Prevedi sve tekstove i placeholder-e
+            document.querySelectorAll('[data-bs][data-en][data-ar]').forEach(element => {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    // Za input i textarea polja - mijenjamo placeholder
                     if (lang === 'bs') {
-                        if (el.tagName === 'P' && el.parentElement?.classList.contains('company-address')) el.innerHTML = el.getAttribute('data-bs');
-                        else if (el.tagName === 'LI' && el.querySelector('a')) {
-                            const link = el.querySelector('a');
-                            if (link) el.innerHTML = el.getAttribute('data-bs').replace('<a', link.outerHTML);
-                            else el.innerText = el.getAttribute('data-bs');
-                        } else el.innerText = el.getAttribute('data-bs');
+                        element.placeholder = element.getAttribute('data-placeholder-bs') || element.placeholder;
                     } else if (lang === 'en') {
-                        if (el.tagName === 'P' && el.parentElement?.classList.contains('company-address')) el.innerHTML = el.getAttribute('data-en');
-                        else if (el.tagName === 'LI' && el.querySelector('a')) {
-                            const link = el.querySelector('a');
-                            if (link) el.innerHTML = el.getAttribute('data-en').replace('<a', link.outerHTML);
-                            else el.innerText = el.getAttribute('data-en');
-                        } else el.innerText = el.getAttribute('data-en');
+                        element.placeholder = element.getAttribute('data-placeholder-en') || element.placeholder;
                     } else if (lang === 'ar') {
-                        if (el.tagName === 'P' && el.parentElement?.classList.contains('company-address')) el.innerHTML = el.getAttribute('data-ar');
-                        else if (el.tagName === 'LI' && el.querySelector('a')) {
-                            const link = el.querySelector('a');
-                            if (link) el.innerHTML = el.getAttribute('data-ar').replace('<a', link.outerHTML);
-                            else el.innerText = el.getAttribute('data-ar');
-                        } else el.innerText = el.getAttribute('data-ar');
+                        element.placeholder = element.getAttribute('data-placeholder-ar') || element.placeholder;
+                    }
+                } else {
+                    // Za ostale elemente - mijenjamo tekst
+                    if (lang === 'bs') {
+                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
+                            element.innerHTML = element.getAttribute('data-bs');
+                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
+                            const link = element.querySelector('a');
+                            if (link) {
+                                const linkHtml = link.outerHTML;
+                                element.innerHTML = element.getAttribute('data-bs').replace('<a', linkHtml);
+                            } else {
+                                element.innerHTML = element.getAttribute('data-bs');
+                            }
+                        } else {
+                            element.innerText = element.getAttribute('data-bs');
+                        }
+                    } else if (lang === 'en') {
+                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
+                            element.innerHTML = element.getAttribute('data-en');
+                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
+                            const link = element.querySelector('a');
+                            if (link) {
+                                const linkHtml = link.outerHTML;
+                                element.innerHTML = element.getAttribute('data-en').replace('<a', linkHtml);
+                            } else {
+                                element.innerHTML = element.getAttribute('data-en');
+                            }
+                        } else {
+                            element.innerText = element.getAttribute('data-en');
+                        }
+                    } else if (lang === 'ar') {
+                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
+                            element.innerHTML = element.getAttribute('data-ar');
+                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
+                            const link = element.querySelector('a');
+                            if (link) {
+                                const linkHtml = link.outerHTML;
+                                element.innerHTML = element.getAttribute('data-ar').replace('<a', linkHtml);
+                            } else {
+                                element.innerHTML = element.getAttribute('data-ar');
+                            }
+                        } else {
+                            element.innerText = element.getAttribute('data-ar');
+                        }
                     }
                 }
             });
+
             updateHeaderTitle();
             updatePageIndicator();
         }
 
+        // =====================================================
+        // FUNKCIJE ZA ŽIVOTOPIS
+        // =====================================================
         let iskustvoCounter = 1;
         let obrazovanjeCounter = 1;
 
@@ -2133,12 +2324,17 @@
             iskustvoCounter++;
             const original = document.querySelector('#iskustvo_1');
             if (!original) return;
+            
             const novi = original.cloneNode(true);
             novi.querySelectorAll('input, textarea').forEach(input => {
                 input.value = '';
-                if (input.name) input.name = input.name.replace('_1_', `_${iskustvoCounter}_`);
+                if (input.name) {
+                    input.name = input.name.replace('_1_', `_${iskustvoCounter}_`);
+                }
             });
+            
             novi.id = `iskustvo_${iskustvoCounter}`;
+            
             const blockTitle = novi.querySelector('.block-title');
             if (blockTitle) {
                 blockTitle.setAttribute('data-bs', `📁 Radno mjesto ${iskustvoCounter}`);
@@ -2146,8 +2342,10 @@
                 blockTitle.setAttribute('data-ar', `📁 الوظيفة ${iskustvoCounter}`);
                 blockTitle.innerText = `📁 Radno mjesto ${iskustvoCounter}`;
             }
+            
             const parent = original.parentNode;
             parent.insertBefore(novi, document.querySelector('.add-btn'));
+            
             changeLanguage(currentLang, null);
         }
 
@@ -2155,12 +2353,17 @@
             obrazovanjeCounter++;
             const original = document.querySelector('#obrazovanje_1');
             if (!original) return;
+            
             const novi = original.cloneNode(true);
             novi.querySelectorAll('input, textarea').forEach(input => {
                 input.value = '';
-                if (input.name) input.name = input.name.replace('_1_', `_${obrazovanjeCounter}_`);
+                if (input.name) {
+                    input.name = input.name.replace('_1_', `_${obrazovanjeCounter}_`);
+                }
             });
+            
             novi.id = `obrazovanje_${obrazovanjeCounter}`;
+            
             const blockTitle = novi.querySelector('.block-title');
             if (blockTitle) {
                 blockTitle.setAttribute('data-bs', `🎓 Obrazovanje ${obrazovanjeCounter}`);
@@ -2168,69 +2371,120 @@
                 blockTitle.setAttribute('data-ar', `🎓 التعليم ${obrazovanjeCounter}`);
                 blockTitle.innerText = `🎓 Obrazovanje ${obrazovanjeCounter}`;
             }
+            
             const parent = original.parentNode;
             parent.insertBefore(novi, document.querySelectorAll('.add-btn')[1]);
+            
             changeLanguage(currentLang, null);
         }
 
+        // =====================================================
+        // NOVA FUNKCIJA ZA SLANJE FORME NA WEB3FORMS
+        // =====================================================
         async function posaljiFormu() {
             const form = document.getElementById('cvForm');
             const status = document.getElementById('form-status');
             const btn = form.querySelector('.submit-btn');
 
+            // Provjeri obavezna polja
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
             }
+
+            // Provjeri checkbox saglasnosti
             const saglasnost = form.querySelector('input[name="suglasnost"]');
             if (saglasnost && !saglasnost.checked) {
-                alert(currentLang === 'ar' ? 'يجب الموافقة على الشروط' : currentLang === 'en' ? 'You must agree to the terms' : 'Morate se složiti sa uslovima');
+                alert(currentLang === 'ar' 
+                    ? 'يجب الموافقة على الشروط' 
+                    : currentLang === 'en' 
+                    ? 'You must agree to the terms' 
+                    : 'Morate se složiti sa uslovima');
                 return;
             }
 
+            // Prikaži učitavanje
             btn.disabled = true;
             btn.textContent = '⏳ Slanje...';
             status.innerHTML = '';
 
             try {
                 const formData = new FormData(form);
+
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
                     body: formData
                 });
+
                 const result = await response.json();
+
                 if (result.success) {
-                    status.innerHTML = `<div class="success-message">✅ ${currentLang === 'ar' ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' : currentLang === 'en' ? 'Your application has been sent successfully! We will contact you soon.' : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}</div>`;
+                    status.innerHTML = `
+                        <div class="success-message">
+                            ✅ ${currentLang === 'ar' 
+                                ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
+                                : currentLang === 'en' 
+                                ? 'Your application has been sent successfully! We will contact you soon.' 
+                                : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
+                        </div>`;
                     form.reset();
+                    // Resetuj foto preview ako postoji
                     const fotoInput = document.getElementById('foto');
                     if (fotoInput) {
                         fotoInput.value = '';
                         const fotoSpan = document.querySelector('.photo-upload span');
-                        if (fotoSpan) fotoSpan.textContent = currentLang === 'bs' ? 'Klikni za upload' : currentLang === 'en' ? 'Click to upload' : 'انقر للتحميل';
+                        if (fotoSpan) {
+                            fotoSpan.textContent = currentLang === 'bs' ? 'Klikni za upload' 
+                                                   : currentLang === 'en' ? 'Click to upload' 
+                                                   : 'انقر للتحميل';
+                        }
                     }
                 } else {
                     throw new Error(result.message || 'Greška');
                 }
             } catch (error) {
-                status.innerHTML = `<div class="error-message">❌ ${currentLang === 'ar' ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' : currentLang === 'en' ? 'An error occurred. Please try again or contact us directly.' : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}</div>`;
+                status.innerHTML = `
+                    <div class="error-message">
+                        ❌ ${currentLang === 'ar' 
+                            ? 'حدث خطأ. يرجى المحاولة مرة أخرى أو الاتصال بنا مباشرة.' 
+                            : currentLang === 'en' 
+                            ? 'An error occurred. Please try again or contact us directly.' 
+                            : 'Došlo je do greške. Pokušajte ponovo ili nas kontaktirajte direktno.'}
+                    </div>`;
             } finally {
                 btn.disabled = false;
-                btn.textContent = currentLang === 'ar' ? '📧 إرسال الطلب' : currentLang === 'en' ? '📧 Send Application' : '📧 Pošalji prijavu';
+                btn.textContent = currentLang === 'ar' ? '📧 إرسال الطلب' 
+                                : currentLang === 'en' ? '📧 Send Application' 
+                                : '📧 Pošalji prijavu';
+                // Skrolaj do poruke
                 status.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
+        // =====================================================
+        // INICIJALIZACIJA
+        // =====================================================
         window.addEventListener('load', function() {
             goToPage('hero');
+            
+            // Prikaz imena fajla za fotografiju
             const fotoInput = document.getElementById('foto');
             if (fotoInput) {
                 fotoInput.addEventListener('change', function(e) {
                     const fileName = e.target.files[0]?.name;
                     const photoLabel = document.querySelector('.photo-upload span');
-                    if (photoLabel && fileName) photoLabel.textContent = fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
+                    if (photoLabel && fileName) {
+                        photoLabel.textContent = fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
+                    }
                 });
             }
         });
     </script>
 </body>
 </html>
+konačna verzija koja se treba dići na net V2.txt
+Displaying konačna verzija koja se treba dići na net V2.txt.
+
+
+zelim da mi promijenis da fotografija na trecoj stranici (zivotopis) nije obavezna i zelim da mi pomognes da rijesim problem s slanjem i primanjem podataka na istoj stranici
+NE MIJENJAJ NISTA DRUGO U KODU OSIM TE DVIJE STVARI
