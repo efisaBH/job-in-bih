@@ -2403,19 +2403,30 @@ form.addEventListener('submit', async (e) => {
 
         const data = await response.json();
 
-        if (response.ok) {
-            alert("Success! Your message has been sent.");
-            form.reset();
-        } else {
-            alert("Error: " + data.message);
+       if (response.ok) {
+    status.innerHTML = `
+        <div class="success-message">
+            ✅ ${currentLang === 'ar' 
+                ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
+                : currentLang === 'en' 
+                ? 'Your application has been sent successfully! We will contact you soon.' 
+                : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
+        </div>`;
+    form.reset();
+    // Resetuj foto preview ako postoji
+    const fotoInput = document.getElementById('foto');
+    if (fotoInput) {
+        fotoInput.value = '';
+        const fotoSpan = document.querySelector('.photo-upload span');
+        if (fotoSpan) {
+            fotoSpan.textContent = currentLang === 'bs' ? 'Klikni za upload' 
+                                   : currentLang === 'en' ? 'Click to upload' 
+                                   : 'انقر للتحميل';
         }
-
-    } catch (error) {
-        alert("Something went wrong. Please try again.");
-    } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
     }
+} else {
+    throw new Error(result.message || 'Greška pri slanju');
+}
 });
         
         // =====================================================
