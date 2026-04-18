@@ -2311,7 +2311,9 @@
             changeLanguage(currentLang, null);
         }
 
-        async function posaljiFormu() {
+       async function posaljiFormu() {
+    console.log("=== POČETAK SLANJA FORME ===");
+    
     const form = document.getElementById('cvForm');
     const statusDiv = document.getElementById('form-status');
     const submitBtn = document.querySelector('.submit-btn');
@@ -2321,33 +2323,62 @@
     
     if (!nisamRobot || !nisamRobot.checked) {
         statusDiv.innerHTML = '<div class="error-message">⚠️ Molimo potvrdite da niste robot.</div>';
-        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
     }
     if (!suglasnost || !suglasnost.checked) {
         statusDiv.innerHTML = '<div class="error-message">⚠️ Morate se složiti sa uvjetima korištenja podataka.</div>';
-        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         return;
     }
     
-    const formData = new FormData(form);
-            // ⭐⭐⭐ OVO DODAJ - BRIŠE PRAZNE FAJLOVE ⭐⭐⭐
-    // Ovo je ono što ti fali i što uzrokuje grešku!
-    const fileInputs = ['fotografija', 'cv_upload', 'preporuka_upload'];
-    fileInputs.forEach(inputName => {
-        const fileInput = document.querySelector(`[name="${inputName}"]`);
-        if (fileInput && fileInput.files.length === 0) {
-            formData.delete(inputName);
-            console.log(`Uklonjen prazan fajl: ${inputName}`);
-        }
-    });
-    // ⭐⭐⭐ KRAJ DODATOG DIJELA ⭐⭐⭐
-    formData.append("access_key", "42ac0273-a354-4e08-9923-0eced83cc1e1");
+    // ⭐ KRITIČNO: Kreiraj NOVI FormData umjesto da koristiš form
+    const formData = new FormData();
     
-    // Provjeri da li postoji hCaptcha response
+    // ⭐ PRVO DODAJ ACCESS KEY (prije svega ostalog)
+    const ACCESS_KEY = "42ac0273-a354-4e08-9923-0eced83cc1e1";
+    formData.append("access_key", ACCESS_KEY);
+    console.log("Access key dodan:", ACCESS_KEY);
+    
+    // Sada ručno dodaj sva polja iz forme
+    const formElements = form.elements;
+    for (let i = 0; i < formElements.length; i++) {
+        const element = formElements[i];
+        if (!element.name) continue;
+        if (element.name === "access_key") continue; // Preskoči ako već postoji
+        
+        // Za file inpute
+        if (element.type === "file" && element.files.length > 0) {
+            formData.append(element.name, element.files[0]);
+            console.log(`Dodan fajl: ${element.name} - ${element.files[0].name}`);
+        } 
+        // Za checkboxove
+        else if (element.type === "checkbox") {
+            if (element.checked) {
+                formData.append(element.name, element.value);
+                console.log(`Dodan checkbox: ${element.name} = ${element.value}`);
+            }
+        }
+        // Za ostala polja (input, textarea, select)
+        else if (element.value && element.type !== "file") {
+            formData.append(element.name, element.value);
+            console.log(`Dodano polje: ${element.name} = ${element.value.substring(0, 50)}`);
+        }
+    }
+    
+    // Dodaj i hCaptcha ako postoji
     const captchaResponse = document.querySelector('[name="h-captcha-response"]')?.value;
     if (captchaResponse) {
         formData.append("h-captcha-response", captchaResponse);
+        console.log("Dodan hCaptcha response");
+    }
+    
+    // Provjeri šta se sve šalje
+    console.log("=== SADRŽAJ FORMDATA ===");
+    for (let [key, value] of formData.entries()) {
+        if (value instanceof File) {
+            console.log(`${key}: [FAJL] ${value.name} (${value.size} bytes)`);
+        } else {
+            console.log(`${key}: ${value}`);
+        }
     }
     
     const originalText = submitBtn.innerHTML;
@@ -2360,8 +2391,9 @@
             method: "POST",
             body: formData
         });
+        
         const data = await response.json();
-        console.log('Odgovor od servera:', data);
+        console.log("Odgovor od servera:", data);
         
         if (data.success) {
             statusDiv.innerHTML = '<div class="success-message">✅ Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.</div>';
@@ -2377,15 +2409,6 @@
                 }
             }
             
-            // Resetiraj hCaptcha ako postoji
-            if (typeof hcaptcha !== 'undefined') {
-                hcaptcha.reset();
-            }
-            
-            // Opciono: skroluj do statusa
-            statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            
-            // Sakrij success poruku nakon 5 sekundi
             setTimeout(() => {
                 const successMsg = document.querySelector('.success-message');
                 if (successMsg) {
@@ -2400,9 +2423,8 @@
             throw new Error(data.message || 'Greška pri slanju');
         }
     } catch (error) {
-        console.error('Greška:', error);
-        statusDiv.innerHTML = `<div class="error-message">❌ Greška: ${error.message}. Molimo pokušajte ponovo ili nas kontaktirajte direktno.</div>`;
-        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        console.error("Greška:", error);
+        statusDiv.innerHTML = `<div class="error-message">❌ Greška: ${error.message}. Molimo pokušajte ponovo.</div>`;
     } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
