@@ -2036,6 +2036,8 @@
                         </i>
                     </div>
 
+                    <div class="h-captcha" data-captcha="true"></div>
+
                     <div class="footer-buttons no-print">
                         <button type="button" class="submit-btn" onclick="posaljiFormu()" 
                                 data-bs="📧 Pošalji prijavu" 
@@ -2310,56 +2312,90 @@
         }
 
         async function posaljiFormu() {
-            const form = document.getElementById('cvForm');
-            const statusDiv = document.getElementById('form-status');
-            const submitBtn = document.querySelector('.submit-btn');
+    const form = document.getElementById('cvForm');
+    const statusDiv = document.getElementById('form-status');
+    const submitBtn = document.querySelector('.submit-btn');
+    
+    const nisamRobot = document.getElementById('nisam_robot');
+    const suglasnost = document.getElementById('suglasnost');
+    
+    if (!nisamRobot || !nisamRobot.checked) {
+        statusDiv.innerHTML = '<div class="error-message">⚠️ Molimo potvrdite da niste robot.</div>';
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+    }
+    if (!suglasnost || !suglasnost.checked) {
+        statusDiv.innerHTML = '<div class="error-message">⚠️ Morate se složiti sa uvjetima korištenja podataka.</div>';
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+    }
+    
+    const formData = new FormData(form);
+    formData.append("access_key", "42ac0273-a354-4e08-9923-0eced83cc1e1");
+    
+    // Provjeri da li postoji hCaptcha response
+    const captchaResponse = document.querySelector('[name="h-captcha-response"]')?.value;
+    if (captchaResponse) {
+        formData.append("h-captcha-response", captchaResponse);
+    }
+    
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Šaljem...';
+    submitBtn.disabled = true;
+    statusDiv.innerHTML = '<div class="info-note">📤 Slanje u tijeku, molimo pričekajte...</div>';
+    
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: formData
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            statusDiv.innerHTML = '<div class="success-message">✅ Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.</div>';
+            form.reset();
             
-            const nisamRobot = document.getElementById('nisam_robot');
-            const suglasnost = document.getElementById('suglasnost');
-            
-            if (!nisamRobot || !nisamRobot.checked) {
-                statusDiv.innerHTML = '<div class="error-message">Molimo potvrdite da niste robot.</div>';
-                return;
-            }
-            if (!suglasnost || !suglasnost.checked) {
-                statusDiv.innerHTML = '<div class="error-message">Morate se složiti sa uvjetima korištenja podataka.</div>';
-                return;
-            }
-            
-            const formData = new FormData(form);
-            formData.append("access_key", "42ac0273-a354-4e08-9923-0eced83cc1e1");
-            
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = "Šaljem...";
-            submitBtn.disabled = true;
-            
-            try {
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    body: formData
-                });
-                const data = await response.json();
-                if (data.success) {
-                    statusDiv.innerHTML = '<div class="success-message">✅ Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.</div>';
-                    form.reset();
-                    const fotoInput = document.getElementById('foto');
-                    if (fotoInput) {
-                        fotoInput.value = '';
-                        const fotoSpan = document.querySelector('.photo-upload span');
-                        if (fotoSpan) {
-                            fotoSpan.textContent = 'Klikni za upload';
-                        }
-                    }
-                } else {
-                    throw new Error(data.message || 'Greška pri slanju');
+            // Resetiraj foto upload display
+            const fotoInput = document.getElementById('foto');
+            if (fotoInput) {
+                fotoInput.value = '';
+                const photoSpan = document.querySelector('.photo-upload span');
+                if (photoSpan) {
+                    photoSpan.textContent = 'Klikni za upload';
                 }
-            } catch (error) {
-                statusDiv.innerHTML = `<div class="error-message">Greška: ${error.message}</div>`;
-            } finally {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
             }
+            
+            // Resetiraj hCaptcha ako postoji
+            if (typeof hcaptcha !== 'undefined') {
+                hcaptcha.reset();
+            }
+            
+            // Opciono: skroluj do statusa
+            statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Sakrij success poruku nakon 5 sekundi
+            setTimeout(() => {
+                const successMsg = document.querySelector('.success-message');
+                if (successMsg) {
+                    successMsg.style.transition = 'opacity 0.5s';
+                    successMsg.style.opacity = '0';
+                    setTimeout(() => {
+                        if (successMsg.parentNode) successMsg.remove();
+                    }, 500);
+                }
+            }, 5000);
+        } else {
+            throw new Error(data.message || 'Greška pri slanju');
         }
+    } catch (error) {
+        console.error('Greška:', error);
+        statusDiv.innerHTML = `<div class="error-message">❌ Greška: ${error.message}. Molimo pokušajte ponovo ili nas kontaktirajte direktno.</div>`;
+        statusDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
 
         window.addEventListener('DOMContentLoaded', function() {
             goToPage('hero');
@@ -2375,5 +2411,7 @@
             }
         });
     </script>
+
+    <script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>
