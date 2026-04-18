@@ -2176,14 +2176,10 @@
         let currentPageIndex = 0;
         let currentLang = 'bs';
 
-        // =====================================================
-        // NAVIGACIJA IZMEĐU STRANICA
-        // =====================================================
         function goToPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active-page');
             });
-            
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active-page');
@@ -2202,12 +2198,12 @@
             } else {
                 return;
             }
-            
             goToPage(pages[currentPageIndex]);
         }
 
         function updatePageIndicator() {
             const indicator = document.getElementById('page-counter');
+            if (!indicator) return;
             if (currentPageIndex === 0) {
                 indicator.textContent = currentLang === 'bs' ? 'Početna' : currentLang === 'en' ? 'Home' : 'الصفحة الرئيسية';
             } else {
@@ -2231,97 +2227,48 @@
 
         function updateHeaderTitle() {
             const indicator = document.getElementById('current-page-indicator');
+            if (!indicator) return;
             const pageId = pages[currentPageIndex];
             indicator.textContent = `- ${pageNames[pageId][currentLang]}`;
         }
 
-        // =====================================================
-        // FUNKCIJA ZA PROMJENU JEZIKA (SA PREVODOM PLACEHOLDERA)
-        // =====================================================
         function changeLanguage(lang, element) {
             currentLang = lang;
-            
             if (element) {
                 document.querySelectorAll('.lang-icon-header').forEach(icon => {
                     icon.classList.remove('active');
                 });
                 element.classList.add('active');
             }
-
             document.documentElement.lang = lang;
-
             if (lang === 'ar') {
                 document.body.classList.add('rtl');
             } else {
                 document.body.classList.remove('rtl');
             }
-
-            // Prevedi sve tekstove i placeholder-e
-            document.querySelectorAll('[data-bs][data-en][data-ar]').forEach(element => {
-                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                    // Za input i textarea polja - mijenjamo placeholder
+            document.querySelectorAll('[data-bs][data-en][data-ar]').forEach(el => {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                     if (lang === 'bs') {
-                        element.placeholder = element.getAttribute('data-placeholder-bs') || element.placeholder;
+                        el.placeholder = el.getAttribute('data-placeholder-bs') || el.placeholder;
                     } else if (lang === 'en') {
-                        element.placeholder = element.getAttribute('data-placeholder-en') || element.placeholder;
+                        el.placeholder = el.getAttribute('data-placeholder-en') || el.placeholder;
                     } else if (lang === 'ar') {
-                        element.placeholder = element.getAttribute('data-placeholder-ar') || element.placeholder;
+                        el.placeholder = el.getAttribute('data-placeholder-ar') || el.placeholder;
                     }
                 } else {
-                    // Za ostale elemente - mijenjamo tekst
                     if (lang === 'bs') {
-                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
-                            element.innerHTML = element.getAttribute('data-bs');
-                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
-                            const link = element.querySelector('a');
-                            if (link) {
-                                const linkHtml = link.outerHTML;
-                                element.innerHTML = element.getAttribute('data-bs').replace('<a', linkHtml);
-                            } else {
-                                element.innerHTML = element.getAttribute('data-bs');
-                            }
-                        } else {
-                            element.innerText = element.getAttribute('data-bs');
-                        }
+                        el.innerText = el.getAttribute('data-bs');
                     } else if (lang === 'en') {
-                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
-                            element.innerHTML = element.getAttribute('data-en');
-                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
-                            const link = element.querySelector('a');
-                            if (link) {
-                                const linkHtml = link.outerHTML;
-                                element.innerHTML = element.getAttribute('data-en').replace('<a', linkHtml);
-                            } else {
-                                element.innerHTML = element.getAttribute('data-en');
-                            }
-                        } else {
-                            element.innerText = element.getAttribute('data-en');
-                        }
+                        el.innerText = el.getAttribute('data-en');
                     } else if (lang === 'ar') {
-                        if (element.tagName === 'P' && element.parentElement?.classList.contains('company-address')) {
-                            element.innerHTML = element.getAttribute('data-ar');
-                        } else if (element.tagName === 'LI' && element.querySelector('a')) {
-                            const link = element.querySelector('a');
-                            if (link) {
-                                const linkHtml = link.outerHTML;
-                                element.innerHTML = element.getAttribute('data-ar').replace('<a', linkHtml);
-                            } else {
-                                element.innerHTML = element.getAttribute('data-ar');
-                            }
-                        } else {
-                            element.innerText = element.getAttribute('data-ar');
-                        }
+                        el.innerText = el.getAttribute('data-ar');
                     }
                 }
             });
-
             updateHeaderTitle();
             updatePageIndicator();
         }
 
-        // =====================================================
-        // FUNKCIJE ZA ŽIVOTOPIS
-        // =====================================================
         let iskustvoCounter = 1;
         let obrazovanjeCounter = 1;
 
@@ -2329,7 +2276,6 @@
             iskustvoCounter++;
             const original = document.querySelector('#iskustvo_1');
             if (!original) return;
-            
             const novi = original.cloneNode(true);
             novi.querySelectorAll('input, textarea').forEach(input => {
                 input.value = '';
@@ -2337,20 +2283,13 @@
                     input.name = input.name.replace('_1_', `_${iskustvoCounter}_`);
                 }
             });
-            
             novi.id = `iskustvo_${iskustvoCounter}`;
-            
             const blockTitle = novi.querySelector('.block-title');
             if (blockTitle) {
-                blockTitle.setAttribute('data-bs', `📁 Radno mjesto ${iskustvoCounter}`);
-                blockTitle.setAttribute('data-en', `📁 Job ${iskustvoCounter}`);
-                blockTitle.setAttribute('data-ar', `📁 الوظيفة ${iskustvoCounter}`);
                 blockTitle.innerText = `📁 Radno mjesto ${iskustvoCounter}`;
             }
-            
             const parent = original.parentNode;
             parent.insertBefore(novi, document.querySelector('.add-btn'));
-            
             changeLanguage(currentLang, null);
         }
 
@@ -2358,7 +2297,6 @@
             obrazovanjeCounter++;
             const original = document.querySelector('#obrazovanje_1');
             if (!original) return;
-            
             const novi = original.cloneNode(true);
             novi.querySelectorAll('input, textarea').forEach(input => {
                 input.value = '';
@@ -2366,95 +2304,77 @@
                     input.name = input.name.replace('_1_', `_${obrazovanjeCounter}_`);
                 }
             });
-            
             novi.id = `obrazovanje_${obrazovanjeCounter}`;
-            
             const blockTitle = novi.querySelector('.block-title');
             if (blockTitle) {
-                blockTitle.setAttribute('data-bs', `🎓 Obrazovanje ${obrazovanjeCounter}`);
-                blockTitle.setAttribute('data-en', `🎓 Education ${obrazovanjeCounter}`);
-                blockTitle.setAttribute('data-ar', `🎓 التعليم ${obrazovanjeCounter}`);
                 blockTitle.innerText = `🎓 Obrazovanje ${obrazovanjeCounter}`;
             }
-            
             const parent = original.parentNode;
             parent.insertBefore(novi, document.querySelectorAll('.add-btn')[1]);
-            
             changeLanguage(currentLang, null);
         }
 
-        // =====================================================
-        // NOVA FUNKCIJA ZA SLANJE FORME NA WEB3FORMS
-        // =====================================================
-        const form = document.getElementById('form');
-const submitBtn = form.querySelector('button[type="submit"]');
-
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(form);
-    formData.append("access_key", "42ac0273-a354-4e08-9923-0eced83cc1e1");
-
-    const originalText = submitBtn.textContent;
-
-    submitBtn.textContent = "Sending...";
-    submitBtn.disabled = true;
-
-    try {
-        const response = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            body: formData
-        });
-
-        const data = await response.json();
-
-       if (response.ok) {
-    status.innerHTML = `
-        <div class="success-message">
-            ✅ ${currentLang === 'ar' 
-                ? 'تم إرسال طلبك بنجاح! سنتصل بك قريباً.' 
-                : currentLang === 'en' 
-                ? 'Your application has been sent successfully! We will contact you soon.' 
-                : 'Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.'}
-        </div>`;
-    form.reset();
-    // Resetuj foto preview ako postoji
-    const fotoInput = document.getElementById('foto');
-    if (fotoInput) {
-        fotoInput.value = '';
-        const fotoSpan = document.querySelector('.photo-upload span');
-        if (fotoSpan) {
-            fotoSpan.textContent = currentLang === 'bs' ? 'Klikni za upload' 
-                                   : currentLang === 'en' ? 'Click to upload' 
-                                   : 'انقر للتحميل';
-        }
-        
-    }
-           catch(error) {
-    console.error(error);
-} 
-    }
-}
-       else {
-    throw new Error(result.message || 'Greška pri slanju');
-}
-});
-
-        
-        // =====================================================
-        // INICIJALIZACIJA
-        // =====================================================
-        window.addEventListener('load', function() {
-            goToPage('hero');
+        async function posaljiFormu() {
+            const form = document.getElementById('cvForm');
+            const statusDiv = document.getElementById('form-status');
+            const submitBtn = document.querySelector('.submit-btn');
             
-            // Prikaz imena fajla za fotografiju
+            const nisamRobot = document.getElementById('nisam_robot');
+            const suglasnost = document.getElementById('suglasnost');
+            
+            if (!nisamRobot || !nisamRobot.checked) {
+                statusDiv.innerHTML = '<div class="error-message">Molimo potvrdite da niste robot.</div>';
+                return;
+            }
+            if (!suglasnost || !suglasnost.checked) {
+                statusDiv.innerHTML = '<div class="error-message">Morate se složiti sa uvjetima korištenja podataka.</div>';
+                return;
+            }
+            
+            const formData = new FormData(form);
+            formData.append("access_key", "42ac0273-a354-4e08-9923-0eced83cc1e1");
+            
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = "Šaljem...";
+            submitBtn.disabled = true;
+            
+            try {
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.success) {
+                    statusDiv.innerHTML = '<div class="success-message">✅ Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.</div>';
+                    form.reset();
+                    const fotoInput = document.getElementById('foto');
+                    if (fotoInput) {
+                        fotoInput.value = '';
+                        const fotoSpan = document.querySelector('.photo-upload span');
+                        if (fotoSpan) {
+                            fotoSpan.textContent = 'Klikni za upload';
+                        }
+                    }
+                } else {
+                    throw new Error(data.message || 'Greška pri slanju');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error-message">Greška: ${error.message}</div>`;
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            goToPage('hero');
             const fotoInput = document.getElementById('foto');
             if (fotoInput) {
                 fotoInput.addEventListener('change', function(e) {
                     const fileName = e.target.files[0]?.name;
-                    const photoLabel = document.querySelector('.photo-upload span');
-                    if (photoLabel && fileName) {
-                        photoLabel.textContent = fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
+                    const photoSpan = document.querySelector('.photo-upload span');
+                    if (photoSpan && fileName) {
+                        photoSpan.textContent = fileName.length > 20 ? fileName.substring(0, 17) + '...' : fileName;
                     }
                 });
             }
