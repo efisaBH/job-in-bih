@@ -2331,6 +2331,17 @@
     }
     
     const formData = new FormData(form);
+            // ⭐⭐⭐ OVO DODAJ - BRIŠE PRAZNE FAJLOVE ⭐⭐⭐
+    // Ovo je ono što ti fali i što uzrokuje grešku!
+    const fileInputs = ['fotografija', 'cv_upload', 'preporuka_upload'];
+    fileInputs.forEach(inputName => {
+        const fileInput = document.querySelector(`[name="${inputName}"]`);
+        if (fileInput && fileInput.files.length === 0) {
+            formData.delete(inputName);
+            console.log(`Uklonjen prazan fajl: ${inputName}`);
+        }
+    });
+    // ⭐⭐⭐ KRAJ DODATOG DIJELA ⭐⭐⭐
     formData.append("access_key", "42ac0273-a354-4e08-9923-0eced83cc1e1");
     
     // Provjeri da li postoji hCaptcha response
@@ -2350,6 +2361,7 @@
             body: formData
         });
         const data = await response.json();
+        console.log('Odgovor od servera:', data);
         
         if (data.success) {
             statusDiv.innerHTML = '<div class="success-message">✅ Vaša prijava je uspješno poslana! Kontaktirat ćemo vas uskoro.</div>';
