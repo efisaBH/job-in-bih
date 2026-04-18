@@ -2433,11 +2433,13 @@ form.addEventListener('submit', async (e) => {
            catch(error) {
     console.error(error);
 } 
+    }
+}
        else {
     throw new Error(result.message || 'Greška pri slanju');
 }
 });
-}
+
         
         // =====================================================
         // INICIJALIZACIJA
